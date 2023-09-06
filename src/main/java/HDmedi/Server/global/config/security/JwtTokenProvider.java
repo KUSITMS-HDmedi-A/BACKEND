@@ -1,6 +1,10 @@
 package HDmedi.Server.global.config.security;
 
 
+import HDmedi.Server.global.exception.unauthorized.InvalidBearerException;
+import HDmedi.Server.global.exception.unauthorized.InvalidTokenException;
+import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
+import HDmedi.Server.global.exception.unauthorized.UnauthorizedException;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +27,6 @@ public class JwtTokenProvider {
     private final Logger LOGGER =  LoggerFactory.getLogger(JwtTokenProvider.class);
 
 
-    private final UserDetailsService userDetailsService;
-
-    @Autowired
-    JwtTokenProvider(UserDetailsService userDetailsService){
-        this.userDetailsService = userDetailsService;
-    }
-
-
-
     @Value("${jwt.secret}")
     private String secretKey;
    // private final long accessTokenTime = 1000L * 60 * 60; // 1시간 토큰 유효
@@ -43,10 +38,8 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작");
-        System.out.println(secretKey);
+        LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 시작", StandardCharsets.UTF_8);
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
-        System.out.println(secretKey);
         LOGGER.info("[init] JwtTokenProvider 내 secretKey 초기화 완료");
     }
 
@@ -130,15 +123,13 @@ public class JwtTokenProvider {
             return true;
         }  catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             LOGGER.info("잘못된 JWT 서명입니다.");
+            throw new InvalidBearerException();
         } catch (ExpiredJwtException e) {
             LOGGER.info("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            LOGGER.info("지원되지 않는 JWT 토큰입니다.");
+            throw new TokenExpiredException();
         } catch (IllegalArgumentException e) {
             LOGGER.info("JWT 토큰이 잘못되었습니다.");
+            throw new InvalidTokenException();
         }
-        return false;
-
-
     }
 }

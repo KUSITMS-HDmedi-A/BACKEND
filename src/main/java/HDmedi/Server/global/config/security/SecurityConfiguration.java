@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").authenticated()
+                .antMatchers("/api").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
@@ -35,12 +35,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(WebSecurity webSecurity) throws Exception{
-
+    public void configure(WebSecurity webSecurity) {
         webSecurity
                 .ignoring()
-                .antMatchers(  "/"
-                );
+                .antMatchers(
+                        "/swagger-resources/**",
+                        "/swagger-ui.html#/**",
+                        "/webjars/**",
+                        "/v2/api-docs/**",
+                        "/swagger.json",
+                        "/hello"
 
+                );
     }
+
 }

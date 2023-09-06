@@ -34,30 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = jwtTokenProvider.resolveAccessToken(servletRequest);
 
-        LOGGER.info(token);
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
 
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
-                filterChain.doFilter(servletRequest, servletResponse);
-            }
-        else {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            httpServletResponse.setContentType("application/json; charset=UTF-8");
-            LOGGER.info("[do1111");
-            // 에러 응답을 생성
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("code", 417);
-            errorResponse.put("message", "만료된 jwt 토큰입니다.");
-
-            // JSON으로 변환하여 응답 보내기
-            PrintWriter out = httpServletResponse.getWriter();
-            objectMapper.writeValue(out, errorResponse);
-            out.flush();
         }
+        filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
 }
