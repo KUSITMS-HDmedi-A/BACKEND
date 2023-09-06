@@ -39,11 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         webSecurity
                 .ignoring()
                 .antMatchers(
-                        "/swagger-resources/**",
-                        "/swagger-ui.html#/**",
-                        "/webjars/**",
-                        "/v2/api-docs/**",
-                        "/swagger.json",
+//                        "/swagger-resources/**",
+//                        "/swagger-ui.html#/**",
+//                        "/webjars/**",
+//                        "/v2/api-docs/**",
+//                        "/swagger.json",
                         "/hello"
 
                 );

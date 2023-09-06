@@ -1,7 +1,7 @@
 package HDmedi.Server.global.config.security;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
