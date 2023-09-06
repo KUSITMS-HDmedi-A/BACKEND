@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
+        if: ${{ matrix.java-version != '11' }}
       #gradle 권한 추가
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
