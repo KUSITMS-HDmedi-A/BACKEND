@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-        if: ${{ matrix.java-version != '17' }}
+
       #gradle 권한 추가
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
@@ -45,8 +45,8 @@ jobs:
           # main 설정 파일 디렉토리로 이동
           mkdir ./src/main/resources
           cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.MAIN_YML }}" > ./application.yml
+          touch ./application.properties
+          echo "${{ secrets.MAIN_YML }}" > ./application.properties
         shell: bash
 
       # 빌드(테스트 스킵)
