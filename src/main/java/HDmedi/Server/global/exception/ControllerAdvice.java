@@ -1,4 +1,4 @@
-package HDmedi.Server.domain.user.controller;
+package HDmedi.Server.global.exception;
 
 import HDmedi.Server.domain.user.dto.response.ErrorResponse;
 import HDmedi.Server.global.exception.HDmediException;
