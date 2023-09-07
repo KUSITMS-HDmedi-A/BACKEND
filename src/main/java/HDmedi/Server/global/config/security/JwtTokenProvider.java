@@ -117,19 +117,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {                         // 토큰 유효성 확인
         LOGGER.info("[validateToken] 토큰 유효 체크 시작");
-        try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             LOGGER.info("[validateToken] 토큰 유효 체크 완료");
             return true;
-        }  catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            LOGGER.info("잘못된 JWT 서명입니다.");
-            throw new InvalidBearerException();
-        } catch (ExpiredJwtException e) {
-            LOGGER.info("만료된 JWT 토큰입니다.");
-            throw new TokenExpiredException();
-        } catch (IllegalArgumentException e) {
-            LOGGER.info("JWT 토큰이 잘못되었습니다.");
-            throw new InvalidTokenException();
-        }
     }
+
 }
