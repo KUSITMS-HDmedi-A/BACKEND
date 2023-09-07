@@ -122,4 +122,16 @@ public class JwtTokenProvider {
             return true;
     }
 
+    public boolean validateRefreshToken(String token) {                         // 토큰 유효성 확인
+        LOGGER.info("[validateRefreshToken] 토큰 유효 체크 시작");
+        Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+
+        if(!claims.getBody().isEmpty()){
+            LOGGER.info("[validateRefreshToken] 토큰 유효 체크 완료");
+            return true;
+        }
+        return false;
+
+    }
+
 }
