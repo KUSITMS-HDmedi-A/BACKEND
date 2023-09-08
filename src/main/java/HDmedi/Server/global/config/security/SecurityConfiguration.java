@@ -24,7 +24,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/hello").permitAll()
+                .antMatchers(
+                        "/hello",
+                        "/api/user/auth/logout"
+                        ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
@@ -39,13 +42,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         webSecurity
                 .ignoring()
                 .antMatchers(
-//                        "/swagger-resources/**",
-//                        "/swagger-ui.html#/**",
-//                        "/webjars/**",
-//                        "/v2/api-docs/**",
-//                        "/swagger.json",
- //                       "/hello"
-
+                        "/api/v1/auth/**","/",
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui/index.html",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger/**",
+                        "/h2-console/**",
+                        "/favicon.ico",
+                        "/api/user/auth/reissue-token"
                 );
     }
 

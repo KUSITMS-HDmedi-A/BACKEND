@@ -72,26 +72,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
-    public void errorResponse(HttpServletRequest servletRequest,
-                              HttpServletResponse servletResponse,
-                              String message,
-                              int code
-                         ) throws IOException {
-
-        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        httpServletResponse.setContentType("application/json; charset=UTF-8");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("code", code);
-        errorResponse.put("message", message);
-
-        // JSON으로 변환하여 응답 보내기
-        PrintWriter out = httpServletResponse.getWriter();
-        objectMapper.writeValue(out, errorResponse);
-        out.flush();
-    }
-
 }
 
