@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AuthSeriveImpl implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthSeriveImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     public JwtTokenProvider jwtTokenProvider;
     public RedisTemplate<String, String> redisTemplate;
