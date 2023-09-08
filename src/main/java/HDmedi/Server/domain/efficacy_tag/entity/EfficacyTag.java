@@ -1,6 +1,6 @@
 package HDmedi.Server.domain.efficacy_tag.entity;
 
-import HDmedi.Server.domain.medicine_efficacy.entity.MedicineEfficacy;
+import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,5 +23,5 @@ public class EfficacyTag extends BaseTimeEntity {
     private Long id;
 
     @OneToMany(mappedBy = "efficacyTag")
-    private List<MedicineEfficacy> medicineEfficacies = new ArrayList<>();
+    private List<MedicineItem> medicineItems = new ArrayList<>();
 }

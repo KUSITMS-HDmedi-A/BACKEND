@@ -1,8 +1,8 @@
-package HDmedi.Server.domain.user.service.Impl;
+package HDmedi.Server.domain.user_entity.service.Impl;
 
-import HDmedi.Server.domain.user.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user.dto.response.LogOutResponseDto;
-import HDmedi.Server.domain.user.service.AuthService;
+import HDmedi.Server.domain.user_entity.dto.response.ReissueTokenResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.LogOutResponseDto;
+import HDmedi.Server.domain.user_entity.service.AuthService;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
 import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
-package HDmedi.Server.domain.user.entity;
+package HDmedi.Server.domain.user_entity.entity;
 
-import HDmedi.Server.domain.user.UserRole;
-import HDmedi.Server.domain.user.UserStatus;
+import HDmedi.Server.domain.user_entity.UserRole;
+import HDmedi.Server.domain.user_entity.UserStatus;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;

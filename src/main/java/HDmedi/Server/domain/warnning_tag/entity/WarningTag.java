@@ -1,6 +1,6 @@
 package HDmedi.Server.domain.warnning_tag.entity;
 
-import HDmedi.Server.domain.medicine_warning.entity.MedicineWarning;
+import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,5 +23,5 @@ public class WarningTag extends BaseTimeEntity {
     private Long id;
 
     @OneToMany(mappedBy = "warningTag")
-    private List<MedicineWarning> medicineWarnings = new ArrayList<>();
+    private List<MedicineItem> medicineWarnings = new ArrayList<>();
 }

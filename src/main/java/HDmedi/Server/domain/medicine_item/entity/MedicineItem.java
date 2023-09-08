@@ -1,9 +1,8 @@
 package HDmedi.Server.domain.medicine_item.entity;
 
 import HDmedi.Server.domain.efficacy_tag.entity.EfficacyTag;
-import HDmedi.Server.domain.medicine_efficacy.entity.MedicineEfficacy;
-import HDmedi.Server.domain.medicine_warning.entity.MedicineWarning;
 import HDmedi.Server.domain.medicines.entity.Medicines;
+import HDmedi.Server.domain.warnning_tag.entity.WarningTag;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,9 +31,9 @@ public class MedicineItem extends BaseTimeEntity {
     @OneToMany(mappedBy = "medicineItem")
     private List<Medicines> medicines = new ArrayList<>();
 
-    @OneToMany(mappedBy = "medicineItem")
-    private List<MedicineEfficacy> medicineEfficacies = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EfficacyTag efficacyTag;
 
-    @OneToMany(mappedBy = "medicineItem")
-    private List<MedicineWarning> medicineWarnings = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WarningTag warningTag;
 }

@@ -1,4 +1,4 @@
-package HDmedi.Server.domain.user;
+package HDmedi.Server.domain.user_entity;
 
 import lombok.Getter;
 

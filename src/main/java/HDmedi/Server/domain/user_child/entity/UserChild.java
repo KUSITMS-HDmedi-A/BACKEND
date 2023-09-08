@@ -1,6 +1,6 @@
 package HDmedi.Server.domain.user_child.entity;
 
-import HDmedi.Server.domain.user.entity.UserEntity;
+import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AllArgsConstructor
-@Table(name = "USER_CHILD")
+@Table(name = "tb_user_child")
 public class UserChild {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
