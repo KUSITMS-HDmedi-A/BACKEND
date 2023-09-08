@@ -2,23 +2,38 @@ package HDmedi.Server.domain.user.entity;
 
 import HDmedi.Server.domain.user.UserRole;
 import HDmedi.Server.domain.user.UserStatus;
+import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_user")
 public class UserEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    Long id;
-    String password;
-    String email;
+    @Column(name = "user_entity_id")
+    private Long id;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
-    UserRole userRole;
+    private UserRole userRole;
+    @Column(name = "user_status")
     @Enumerated(EnumType.STRING)
-    UserStatus userStatus;
+    private UserStatus userStatus;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<UserChild> userChildEntities = new ArrayList<>();
 }
