@@ -8,6 +8,7 @@ import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
@@ -22,13 +23,7 @@ public class AuthSeriveImpl implements AuthService {
     @Override
     public ResponseDto logout(Long userId) {
         deleteValueByKey(String.valueOf(userId));
-
-        ResponseDto logoutResponse = new ResponseDto();
-        logoutResponse.setCode(200);
-        logoutResponse.setMessage("완료");
-
-
-        return logoutResponse;
+        return ResponseDto.of(HttpStatus.OK.value(), "완료");
     }
 
     @Override
