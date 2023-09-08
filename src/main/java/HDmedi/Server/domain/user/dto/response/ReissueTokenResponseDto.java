@@ -9,7 +9,6 @@ import lombok.*;
 @Getter
 @Setter
 public class ReissueTokenResponseDto {
-
     private int code;
     private String message;
     private String accessToken;
