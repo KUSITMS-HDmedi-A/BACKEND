@@ -7,11 +7,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
-public class ResponseDto {
+public class LogOutResponseDto {
     private int code;
     private String message;
 
-    public static ResponseDto of (int code, String message){
-        return new ResponseDto(code, message);
+    public static LogOutResponseDto of (int code, String message){
+        return new LogOutResponseDto(code, message);
     }
 }

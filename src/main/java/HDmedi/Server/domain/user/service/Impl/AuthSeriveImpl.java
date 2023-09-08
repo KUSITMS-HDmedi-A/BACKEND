@@ -1,7 +1,7 @@
 package HDmedi.Server.domain.user.service.Impl;
 
 import HDmedi.Server.domain.user.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user.dto.response.ResponseDto;
+import HDmedi.Server.domain.user.dto.response.LogOutResponseDto;
 import HDmedi.Server.domain.user.service.AuthService;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
 import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
@@ -21,9 +21,9 @@ public class AuthSeriveImpl implements AuthService {
     public RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public ResponseDto logout(Long userId) {
+    public LogOutResponseDto logout(Long userId) {
         deleteValueByKey(String.valueOf(userId));
-        return ResponseDto.of(HttpStatus.OK.value(), "완료");
+        return LogOutResponseDto.of(HttpStatus.OK.value(), "완료");
     }
 
     @Override
