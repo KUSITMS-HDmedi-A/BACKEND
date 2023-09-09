@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/hello",
+
                         "/api/user/auth/logout"
                         ).authenticated()
                 .and()
@@ -51,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/swagger/**",
                         "/h2-console/**",
                         "/favicon.ico",
-                        "/api/user/auth/reissue-token"
+                        "/api/user/auth/reissue-token",
+                        "/hello"
                 );
     }
 
