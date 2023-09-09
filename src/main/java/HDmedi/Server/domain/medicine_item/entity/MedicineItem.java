@@ -1,8 +1,7 @@
 package HDmedi.Server.domain.medicine_item.entity;
 
-import HDmedi.Server.domain.efficacy_tag.entity.EfficacyTag;
 import HDmedi.Server.domain.medicines.entity.Medicines;
-import HDmedi.Server.domain.warnning_tag.entity.WarningTag;
+import HDmedi.Server.domain.tag.entity.Tag;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,8 +31,6 @@ public class MedicineItem extends BaseTimeEntity {
     private List<Medicines> medicines = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private EfficacyTag efficacyTag;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private WarningTag warningTag;
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 }
