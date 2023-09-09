@@ -1,11 +1,13 @@
 package HDmedi.Server.domain.user_entity.service;
 
-import HDmedi.Server.domain.user_entity.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user_entity.dto.response.LogOutResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.TokenResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.LogoutResponseDto;
 
 public interface AuthService {
 
-    LogOutResponseDto logout(Long userId);
+    LogoutResponseDto logout(String refreshToken);
 
-    ReissueTokenResponseDto reissueToken(String refreshToken);
+    TokenResponseDto reissueToken(String refreshToken);
+
+    TokenResponseDto kakaoLogin(String accessToken);
 }

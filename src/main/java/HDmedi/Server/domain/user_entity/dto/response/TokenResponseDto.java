@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class ReissueTokenResponseDto {
+public class TokenResponseDto {
     private int code;
     private String message;
     private String accessToken;

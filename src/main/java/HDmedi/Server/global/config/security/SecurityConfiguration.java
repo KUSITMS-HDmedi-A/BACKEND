@@ -24,9 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-
-                        "/api/user/auth/logout"
+                .antMatchers("/"
                         ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
@@ -42,17 +40,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         webSecurity
                 .ignoring()
                 .antMatchers(
-                        "/api/v1/auth/**","/",
+//                        "/api/v1/auth/**","/",
+//                        "/v2/api-docs",
+//                        "/swagger-resources/**",
+//                        "/swagger-ui/index.html",
+//                        "/swagger-ui.html",
+//                        "/webjars/**",
+//                        "/swagger/**",
+//                        "/h2-console/**",
+//                        "/favicon.ico",
                         "/v2/api-docs",
-                        "/swagger-resources/**",
-                        "/swagger-ui/index.html",
-                        "/swagger-ui.html",
+                        "/configuration/**",
+                        "/swagger*/**",
                         "/webjars/**",
-                        "/swagger/**",
-                        "/h2-console/**",
-                        "/favicon.ico",
                         "/api/user/auth/reissue-token",
-                        "/hello"
+                        "/hello",
+                        "/api/user/auth/kakao-login",
+
+                        "/api/user/auth/logout"
                 );
     }
 

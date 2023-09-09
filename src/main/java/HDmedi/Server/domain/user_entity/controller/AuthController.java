@@ -1,8 +1,8 @@
 package HDmedi.Server.domain.user_entity.controller;
 
 
-import HDmedi.Server.domain.user_entity.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user_entity.dto.response.LogOutResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.TokenResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.LogoutResponseDto;
 import HDmedi.Server.domain.user_entity.service.AuthService;
 import HDmedi.Server.global.config.security.CustomUser;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
@@ -28,9 +28,10 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public LogOutResponseDto logout(@AuthenticationPrincipal CustomUser customUser)  {
+    public LogoutResponseDto logout(HttpServletRequest request)  {
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 
-        LogOutResponseDto logoutResponseDto = authService.logout(customUser.getUserId());
+        LogoutResponseDto logoutResponseDto = authService.logout(refreshToken);
 
         LOGGER.info("로그아웃 완료");
 
@@ -38,16 +39,32 @@ public class AuthController {
     }
 
     @GetMapping(value = "/reissue-token")
-    public ReissueTokenResponseDto reissueToken(HttpServletRequest request)  {
+    public TokenResponseDto reissueToken(HttpServletRequest request)  {
 
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 
-        ReissueTokenResponseDto reissueTokenResponseDto = authService.reissueToken(refreshToken);
+        TokenResponseDto reissueTokenResponseDto = authService.reissueToken(refreshToken);
 
         LOGGER.info("토큰 재발급 완료");
 
         return reissueTokenResponseDto;
     }
+
+    @PostMapping(value = "/kakao-login")
+    public TokenResponseDto kakaoLogin(HttpServletRequest request)  {
+
+        String accessToken = jwtTokenProvider.resolveAccessToken(request);
+
+        TokenResponseDto reissueTokenResponseDto = authService.kakaoLogin(accessToken);
+
+        LOGGER.info("카카오 로그인 완료");
+
+        return reissueTokenResponseDto;
+    }
+
+
+
+
 
 
 
