@@ -1,34 +1,29 @@
-package HDmedi.Server.domain.user.service.Impl;
+package HDmedi.Server.domain.user_entity.service.Impl;
 
-import HDmedi.Server.domain.user.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user.dto.response.ResponseDto;
-import HDmedi.Server.domain.user.service.AuthService;
+import HDmedi.Server.domain.user_entity.dto.response.ReissueTokenResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.LogOutResponseDto;
+import HDmedi.Server.domain.user_entity.service.AuthService;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
 import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class AuthSeriveImpl implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthSeriveImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     public JwtTokenProvider jwtTokenProvider;
     public RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public ResponseDto logout(Long userId) {
+    public LogOutResponseDto logout(Long userId) {
         deleteValueByKey(String.valueOf(userId));
-
-        ResponseDto logoutResponse = new ResponseDto();
-        logoutResponse.setCode(200);
-        logoutResponse.setMessage("완료");
-
-
-        return logoutResponse;
+        return LogOutResponseDto.of(HttpStatus.OK.value(), "완료");
     }
 
     @Override

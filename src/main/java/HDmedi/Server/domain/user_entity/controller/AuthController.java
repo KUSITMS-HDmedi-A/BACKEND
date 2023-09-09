@@ -1,9 +1,9 @@
-package HDmedi.Server.domain.user.controller;
+package HDmedi.Server.domain.user_entity.controller;
 
 
-import HDmedi.Server.domain.user.dto.response.ReissueTokenResponseDto;
-import HDmedi.Server.domain.user.dto.response.ResponseDto;
-import HDmedi.Server.domain.user.service.AuthService;
+import HDmedi.Server.domain.user_entity.dto.response.ReissueTokenResponseDto;
+import HDmedi.Server.domain.user_entity.dto.response.LogOutResponseDto;
+import HDmedi.Server.domain.user_entity.service.AuthService;
 import HDmedi.Server.global.config.security.CustomUser;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
 import org.slf4j.Logger;
@@ -28,9 +28,9 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseDto logout(@AuthenticationPrincipal CustomUser customUser)  {
+    public LogOutResponseDto logout(@AuthenticationPrincipal CustomUser customUser)  {
 
-        ResponseDto logoutResponseDto = authService.logout(customUser.getUserId());
+        LogOutResponseDto logoutResponseDto = authService.logout(customUser.getUserId());
 
         LOGGER.info("로그아웃 완료");
 

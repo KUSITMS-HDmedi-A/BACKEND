@@ -1,4 +1,4 @@
-package HDmedi.Server.domain.user.dto.response;
+package HDmedi.Server.domain.user_entity.dto.response;
 
 import lombok.*;
 
@@ -9,7 +9,6 @@ import lombok.*;
 @Getter
 @Setter
 public class ReissueTokenResponseDto {
-
     private int code;
     private String message;
     private String accessToken;

@@ -1,4 +1,4 @@
-package HDmedi.Server.domain.user.dto.response;
+package HDmedi.Server.global.exception;
 
 import lombok.*;
 

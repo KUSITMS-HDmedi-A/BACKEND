@@ -1,7 +1,4 @@
-package HDmedi.Server.domain.user.controller;
-
-import HDmedi.Server.domain.user.dto.response.ErrorResponse;
-import HDmedi.Server.global.exception.HDmediException;
+package HDmedi.Server.global.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +14,7 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
-public class ControllerAdvice {
+public class GlobalExceptionHandler {
     private final int INVALID_PARAMETER_CODE = 400;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
