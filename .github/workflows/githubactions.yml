@@ -45,8 +45,8 @@ jobs:
           # main 설정 파일 디렉토리로 이동
           mkdir ./src/main/resources
           cd ./src/main/resources
-          touch ./application.properties
-          echo "${{ secrets.MAIN_YML }}" > ./application.properties
+          touch ./application.yml
+          echo "${{ secrets.MAIN_YML }}" > ./application.yml
         shell: bash
 
       # 빌드(테스트 스킵)
