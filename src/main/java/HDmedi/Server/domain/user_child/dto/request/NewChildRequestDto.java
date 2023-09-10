@@ -15,7 +15,7 @@ public class NewChildRequestDto {
     @NotBlank
     public String name;
 
-    @NotBlank
+    @NonNull
     public int age;
 
     @NotBlank

@@ -30,6 +30,8 @@ public class ChildMedicine extends BaseTimeEntity {
     @Column(name = "prescription_url")
     private String prescription; // 처방전 사진 url
 
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_child_id")
     private UserChild userChild; // 자식 유저는 여러 개의 복용 약을 등록할 수 있다.

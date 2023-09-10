@@ -18,7 +18,6 @@ public class ChildServiceImpl implements ChildService {
 
     UserChildRepository userChildRepository;
 
-
     @Autowired
     ChildServiceImpl(UserChildRepository userChildRepository){
         this.userChildRepository = userChildRepository;
@@ -48,6 +47,7 @@ public class ChildServiceImpl implements ChildService {
         userChild.setName(newChildRequestDto.getName());
         userChild.setAge(newChildRequestDto.getAge());
         userChild.setRelation(newChildRequestDto.getRelationship());
+        userChild.setUserEntity(userEntity);
 
         userChildRepository.save(userChild);
 
