@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/home")
 public class ChildController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ChildController.class);
 
     private final ChildService childService;
 
