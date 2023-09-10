@@ -70,5 +70,5 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
           
-            docker pull HDMedia
+            docker pull leeseungryeol/hdmedia:1.0
             docker-compose up -d
