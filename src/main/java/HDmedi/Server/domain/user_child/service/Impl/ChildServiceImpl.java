@@ -8,6 +8,10 @@ import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_child.repository.UserChildRepository;
 import HDmedi.Server.domain.user_child.service.ChildService;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
+import HDmedi.Server.global.exception.CustomExceptionContext;
+import HDmedi.Server.global.exception.ExceptionContext;
+import HDmedi.Server.global.exception.HDmediException;
+import HDmedi.Server.global.exception.notfound.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +43,17 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public ResponseDto enrollChild(Long userId, NewChildRequestDto newChildRequestDto) {
+
+
+        Optional<UserChild> userChildSelect = userChildRepository.findByName(newChildRequestDto.getName());
+        if(userChildSelect.isPresent()){
+
+            throw new HDmediException(CustomExceptionContext.INVALID_ADD_MEMBER.getHttpStatus(),
+                    CustomExceptionContext.INVALID_ADD_MEMBER.getMessage(),
+                    CustomExceptionContext.INVALID_ADD_MEMBER.getCode()
+                    );
+
+        }
 
         UserChild userChild = new UserChild();
         UserEntity userEntity = new UserEntity();

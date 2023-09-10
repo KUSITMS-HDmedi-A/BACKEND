@@ -40,7 +40,7 @@ public class MedicineController {
     )  {
         LOGGER.info(String.valueOf(customUser.getUserId()));
 
-        ResponseDto responseDto = medicineService.enrollMedicine();
+        ResponseDto responseDto = medicineService.enrollMedicine(customUser.getUserId(), enrollMedicineRequestDto);
 
 
         LOGGER.info("약 등록 완료");

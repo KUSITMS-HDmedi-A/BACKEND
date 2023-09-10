@@ -13,5 +13,7 @@ public interface UserChildRepository extends JpaRepository<UserChild, Long> {
 
     Optional<UserChild> findByUserEntity(UserEntity userEntity);
 
+    UserChild findByNameAndUserEntity(String name, UserEntity userEntity);
 
+    Optional<UserChild> findByName(String name);
 }

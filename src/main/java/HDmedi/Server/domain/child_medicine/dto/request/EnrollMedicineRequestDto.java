@@ -22,6 +22,9 @@ public class EnrollMedicineRequestDto {
     @NonNull
     public LocalDate endDate;
 
+    @NotBlank
+    public String characterName;
+
     public String[] medicine;
 
 
