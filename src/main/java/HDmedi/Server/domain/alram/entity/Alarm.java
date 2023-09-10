@@ -33,7 +33,7 @@ public class Alarm extends BaseTimeEntity {
     LocalDateTime endDate; // 알림 끝 날짜
 
     @Column(name = "is_done")
-    String isDone; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
+    Boolean isDone = false; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
 
     @Column(name = "record")
     String record; // 알람/복용 기록
