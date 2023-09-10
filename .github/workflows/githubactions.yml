@@ -58,8 +58,8 @@ jobs:
       - name: Build Docker Image For Spring
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t HDMedia .
-          docker push HDMedia
+          docker build -t leeseungryeol/hdmedia:1.0 .
+          docker push leeseungryeol/hdmedia:1.0
 
       # 서버에서 Docker 이미지 실행
       - name: EC2 Docker Run
