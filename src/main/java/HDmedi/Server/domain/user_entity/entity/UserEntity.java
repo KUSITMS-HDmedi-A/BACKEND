@@ -5,14 +5,17 @@ import HDmedi.Server.domain.user_entity.UserStatus;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Builder
+@Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @AllArgsConstructor
 @Table(name = "tb_user")
