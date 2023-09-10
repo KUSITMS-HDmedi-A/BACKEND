@@ -70,7 +70,6 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
           
-           
             docker stop HDMedia
             docker rm HDMedia
             docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:1.0
