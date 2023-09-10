@@ -40,7 +40,6 @@ public class ChildController {
 
         HomeResponseDto homeResponseDto = childService.homePage(customUser.getUserId());
 
-
         LOGGER.info("데이터 전달완료");
 
         return homeResponseDto;
