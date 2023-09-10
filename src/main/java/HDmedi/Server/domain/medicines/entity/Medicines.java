@@ -3,15 +3,14 @@ package HDmedi.Server.domain.medicines.entity;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+
+@Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @AllArgsConstructor
 @Table(name = "tb_medicines")

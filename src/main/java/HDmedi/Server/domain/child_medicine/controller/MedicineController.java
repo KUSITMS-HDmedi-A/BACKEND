@@ -38,7 +38,7 @@ public class MedicineController {
             @AuthenticationPrincipal CustomUser customUser,
             @Validated @RequestBody EnrollMedicineRequestDto enrollMedicineRequestDto
     )  {
-        LOGGER.info(String.valueOf(customUser.getUserId()));
+
 
         ResponseDto responseDto = medicineService.enrollMedicine(customUser.getUserId(), enrollMedicineRequestDto);
 
