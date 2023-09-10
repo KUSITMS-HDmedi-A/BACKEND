@@ -48,10 +48,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
             setErrorResponse(servletRequest, servletResponse, "검증 에러 ",421);
+            return;
         } catch (ExpiredJwtException e) {
             setErrorResponse(servletRequest, servletResponse, "토큰 만료",419);
+            return;
         } catch (JwtException e) {
             setErrorResponse(servletRequest, servletResponse, "jwt 에러",420);
+            return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
@@ -69,6 +72,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
         response.setStatus(HttpServletResponse.SC_OK);
+
+
     }
 
 

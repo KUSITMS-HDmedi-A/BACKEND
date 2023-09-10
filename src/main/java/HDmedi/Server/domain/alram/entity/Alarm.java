@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -27,10 +28,10 @@ public class Alarm extends BaseTimeEntity {
     ChildMedicine childMedicine; // 하나의 약은 여러 개의 알림을 가질 수 있다.
 
     @Column(name = "start_date")
-    LocalDateTime startDate; // 알림 시작 날짜
+    LocalDate startDate; // 알림 시작 날짜
 
     @Column(name = "end_date")
-    LocalDateTime endDate; // 알림 끝 날짜
+    LocalDate endDate; // 알림 끝 날짜
 
     @Column(name = "is_done")
     String isDone; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
