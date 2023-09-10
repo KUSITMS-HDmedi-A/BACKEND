@@ -34,7 +34,7 @@ public class JwtTokenProvider {
     private final long accessTokenTime = 1L * 60 * 1000; // 1분 토큰 유효
  //   private final long refreshTokenTIme = 30L * 24L * 60 * 60 * 1000; // 1달 토큰 유효
 
-    private final long refreshTokenTIme = 1L * 60 * 1000 * 2; // 1달 토큰 유효
+    private final long refreshTokenTime = 1L * 60 * 1000 * 2; // 1달 토큰 유효
 
     @PostConstruct
     protected void init() {
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
 
 
     public String createAccessToken(Long userId, String roles) {            // 토큰 생성
-        LOGGER.info("[createToken] 토큰 생성 시작");
+
         Claims claims = Jwts.claims().setSubject(String.valueOf(userId));
         claims.put("roles", roles);
 
@@ -62,12 +62,12 @@ public class JwtTokenProvider {
     }
 
     public String createRereshToken() {            // 토큰 생성
-        LOGGER.info("[createToken] 토큰 생성 시작");
+
 
         Date now = new Date();
         String token = Jwts.builder()
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + refreshTokenTIme))
+                .setExpiration(new Date(now.getTime() + refreshTokenTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret 값 세팅
                 .compact();
 

@@ -12,6 +12,6 @@ public class HelloController {
 
     @GetMapping
     public String helloController(){
-        return "HELLO-KUSIZM";
+        return "HELLO";
     }
 }

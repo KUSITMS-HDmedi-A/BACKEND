@@ -4,15 +4,13 @@ import HDmedi.Server.domain.user_entity.UserRole;
 import HDmedi.Server.domain.user_entity.UserStatus;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
