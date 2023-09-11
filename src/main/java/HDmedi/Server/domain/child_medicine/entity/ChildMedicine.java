@@ -4,10 +4,7 @@ import HDmedi.Server.domain.alram.entity.Alarm;
 import HDmedi.Server.domain.medicines.entity.Medicines;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @AllArgsConstructor
 @Table(name = "tb_child_medicine")
@@ -32,10 +30,12 @@ public class ChildMedicine extends BaseTimeEntity {
     private String prescription; // 처방전 사진 url
 
     @Column(name = "start_date")
-    LocalDate startDate;
+    LocalDate startDate; // 알림 시작 날짜
 
     @Column(name = "end_date")
-    LocalDate endDate;
+    LocalDate endDate; // 알림 끝 날짜
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_child_id")

@@ -1,15 +1,13 @@
 package HDmedi.Server.domain.user_child.entity;
 
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @AllArgsConstructor
 @Table(name = "tb_user_child")
