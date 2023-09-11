@@ -1,6 +1,7 @@
 package HDmedi.Server.domain.question.dto.response;
 
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 
@@ -11,6 +12,7 @@ import lombok.*;
 public class AdhdTestResponseDto extends ResponseDto {
 
     String[] question;
+
     String[] character;
 
 

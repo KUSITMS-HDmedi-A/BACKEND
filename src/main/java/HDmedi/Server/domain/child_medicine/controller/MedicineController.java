@@ -7,6 +7,10 @@ import HDmedi.Server.domain.user_child.dto.request.NewChildRequestDto;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
 import HDmedi.Server.global.config.security.CustomUser;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +37,21 @@ public class MedicineController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = ResponseDto.class)
+    @ApiOperation(value = "약 등록", notes = "유저 약 등록")
     @PostMapping(value = "/enroll-medicine")
     public ResponseDto enrollMedicine(
             @AuthenticationPrincipal CustomUser customUser,
-            @Validated @RequestBody EnrollMedicineRequestDto enrollMedicineRequestDto
+            @ApiParam(value = "요청 해줘", required = true) @Validated @RequestBody EnrollMedicineRequestDto enrollMedicineRequestDto
     )  {
 
 

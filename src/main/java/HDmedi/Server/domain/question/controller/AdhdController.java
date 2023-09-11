@@ -6,6 +6,10 @@ import HDmedi.Server.domain.question.dto.response.AdhdTestResultResponseDto;
 import HDmedi.Server.domain.question.service.QuestionService;
 import HDmedi.Server.global.config.security.CustomUser;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +32,19 @@ public class AdhdController {
         this.questionService = questionService;
     }
 
-
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = AdhdTestResultResponseDto.class)
+    @ApiOperation(value = "Adhd 결과", notes = "Adhd 결과 출력")
     @PostMapping ("/test/result")
     public AdhdTestResultResponseDto adhdTestResult(@AuthenticationPrincipal CustomUser customUser,
-                                        @Validated @RequestBody AdhdTestResultRequestDto adhdTestResultRequestDto
+               @ApiParam(value = "요청 해줘", required = true) @Validated @RequestBody AdhdTestResultRequestDto adhdTestResultRequestDto
 
     )  {
 
@@ -46,6 +59,18 @@ public class AdhdController {
         return adhdTestResultResponseDto;
     }
 
+
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = AdhdTestResponseDto.class)
+    @ApiOperation(value = "Adhd 테스트 데이터", notes = "Adhd 테스트 데이터(질문, 캐릭터들)")
     @GetMapping("/test")
     public AdhdTestResponseDto adhdTest(@AuthenticationPrincipal CustomUser customUser)  {
 

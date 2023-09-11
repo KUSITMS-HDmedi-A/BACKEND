@@ -101,11 +101,24 @@ public class JwtTokenProvider {
     }
 
 
-    public String resolveAccessToken(HttpServletRequest request) {              // 헤더에서 토큰 가져오기
+//    public String resolveAccessToken(HttpServletRequest request) {              // 헤더에서 토큰 가져오기
+//        LOGGER.info("[resolveToken] HTTP 헤더에서 Token 값 추출");
+//
+//        return request.getHeader("access").substring(7);
+//    }
+    public String resolveAccessToken(HttpServletRequest request) {
         LOGGER.info("[resolveToken] HTTP 헤더에서 Token 값 추출");
 
-        return request.getHeader("access").substring(7);
+        String tokenHeader = request.getHeader("access");
+
+        if (tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
+            return tokenHeader.substring(7);
+        } else {
+            // 예외 처리: 헤더가 없거나 "Bearer " 접두사가 없는 경우
+            throw new IllegalArgumentException("Invalid access token header");
+        }
     }
+
 
     public String resolveRefreshToken(HttpServletRequest request) {              // 헤더에서 토큰 가져오기
         LOGGER.info("[resolveToken] HTTP 헤더에서 Token 값 추출");

@@ -28,16 +28,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/medicine/enroll-medicine",
                         "/api/adhd/test/result",
                         "/api/adhd/test"
-                        ).authenticated()
+                ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
-
-
     }
-
-
-
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity
@@ -52,5 +47,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/user/auth/logout"
                 );
     }
-
 }
+
