@@ -47,9 +47,9 @@ public class AdhdController {
     }
 
     @GetMapping("/test")
-    public AdhdTestResponseDto adhdTest()  {
+    public AdhdTestResponseDto adhdTest(@AuthenticationPrincipal CustomUser customUser)  {
 
-        AdhdTestResponseDto adhdTestResponse = questionService.testStart();
+        AdhdTestResponseDto adhdTestResponse = questionService.testStart(customUser.getUserId());
 
         LOGGER.info("설문 데이터 전달완료");
 

@@ -11,6 +11,7 @@ import lombok.*;
 public class AdhdTestResponseDto extends ResponseDto {
 
     String[] question;
+    String[] character;
 
 
 }

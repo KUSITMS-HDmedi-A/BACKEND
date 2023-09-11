@@ -27,14 +27,23 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public AdhdTestResponseDto testStart() {
+    public AdhdTestResponseDto testStart(Long userId) {
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userId);
 
         List<Question> question = questionRepository.findAllByDescriptionIsNotNull();
+        List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);
+
 
         String[] questions = new String[question.size()];
+        String[] characterList = new String[userChildList.size()];
 
         for(int i = 0; i < question.size(); i++){
             questions[i] = question.get(i).getDescription();
+        }
+        for(int i = 0; i < userChildList.size(); i++){
+            characterList[i] = userChildList.get(i).getName();
         }
 
         AdhdTestResponseDto adhdTestResponseDto = new AdhdTestResponseDto();
@@ -42,6 +51,7 @@ public class QuestionServiceImpl implements QuestionService {
         adhdTestResponseDto.setCode(200);
         adhdTestResponseDto.setMessage("OK");
         adhdTestResponseDto.setQuestion(questions);
+        adhdTestResponseDto.setCharacter(characterList);
 
         return adhdTestResponseDto;
     }

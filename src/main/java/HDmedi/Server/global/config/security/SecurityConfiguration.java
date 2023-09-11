@@ -26,7 +26,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/home/new-child",
                         "/api/medicine/enroll-medicine",
-                        "/api/adhd/test/result"
+                        "/api/adhd/test/result",
+                        "/api/adhd/test"
                         ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
@@ -48,7 +49,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/api/user/auth/reissue-token",
                         "/api/user/auth/kakao-login",
-                        "/api/adhd/test",
                         "/api/user/auth/logout"
                 );
     }
