@@ -32,6 +32,7 @@ public class JwtTokenProvider {
 
     private final long accessTokenTime = 30L * 24L * 60 * 60 * 1000; // 1달 토큰 유효
 
+
     private final long refreshTokenTime = 1L * 60 * 1000 * 2; // 1달 토큰 유효
 
     @PostConstruct

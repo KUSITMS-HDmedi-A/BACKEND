@@ -36,6 +36,7 @@ public class ChildMedicine extends BaseTimeEntity {
     LocalDate endDate; // 알림 끝 날짜
 
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_child_id")
     private UserChild userChild; // 자식 유저는 여러 개의 복용 약을 등록할 수 있다.

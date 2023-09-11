@@ -76,11 +76,12 @@ public class AuthServiceImpl implements AuthService {
 
         UserEntity user;
 
+
         Mono<KakaoUserResponse> userInfoMono = getUserInfo(accessToken);
         KakaoUserResponse userInfo = userInfoMono.block();
 
         Optional<UserEntity> userData = userRepository.findByEmail(String.valueOf(userInfo.getId()));
-
+        LOGGER.info(String.valueOf(userData));
         if(userData.isEmpty()){
             user = UserEntity.builder()
                     .email(String.valueOf(userInfo.getId()))
@@ -119,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
         return webClient
                 .get()
                 .uri("https://kapi.kakao.com/v2/user/me") // 카카오 사용자 정보 엔드포인트
-                .headers(headers -> headers.setBearerAuth(accessToken ))
+                .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()
                 .bodyToMono(KakaoUserResponse.class);
     }
