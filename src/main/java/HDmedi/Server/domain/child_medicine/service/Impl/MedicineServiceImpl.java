@@ -148,6 +148,8 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
         MedicineManageResponseDto medicineManageResponseDto = new MedicineManageResponseDto();
         medicineManageResponseDto.setCharacterList(characterDTOS);
+        medicineManageResponseDto.setMessage("OK");
+        medicineManageResponseDto.setCode(200);
 
         return medicineManageResponseDto;
     }
