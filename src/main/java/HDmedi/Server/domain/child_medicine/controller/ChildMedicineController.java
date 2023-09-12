@@ -3,8 +3,7 @@ package HDmedi.Server.domain.child_medicine.controller;
 
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
-import HDmedi.Server.domain.child_medicine.service.MedicineService;
-import HDmedi.Server.domain.user_child.dto.request.NewChildRequestDto;
+import HDmedi.Server.domain.child_medicine.service.ChildMedicineService;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
 import HDmedi.Server.global.config.security.CustomUser;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
@@ -20,17 +19,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/medicine")
-public class MedicineController {
+@RequestMapping("/api/child-medicine")
+public class ChildMedicineController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(MedicineController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineController.class);
 
-    private final MedicineService medicineService;
+    private final ChildMedicineService medicineService;
 
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public MedicineController(MedicineService medicineService, JwtTokenProvider jwtTokenProvider) {
+    public ChildMedicineController(ChildMedicineService medicineService, JwtTokenProvider jwtTokenProvider) {
         this.medicineService = medicineService;
         this.jwtTokenProvider = jwtTokenProvider;
     }

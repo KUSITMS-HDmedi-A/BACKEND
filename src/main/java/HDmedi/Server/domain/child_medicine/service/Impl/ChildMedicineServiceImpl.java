@@ -1,12 +1,11 @@
 package HDmedi.Server.domain.child_medicine.service.Impl;
 
 
-import HDmedi.Server.domain.child_medicine.controller.MedicineController;
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
-import HDmedi.Server.domain.child_medicine.service.MedicineService;
+import HDmedi.Server.domain.child_medicine.service.ChildMedicineService;
 import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.domain.medicine_item.repository.MedicineItemRepository;
 import HDmedi.Server.domain.medicines.entity.Medicines;
@@ -18,28 +17,26 @@ import HDmedi.Server.domain.user_child.repository.UserChildRepository;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import HDmedi.Server.global.exception.CustomExceptionContext;
 import HDmedi.Server.global.exception.HDmediException;
-import HDmedi.Server.global.exception.notfound.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-public class MedicineServiceImpl implements MedicineService {
+public class ChildMedicineServiceImpl implements ChildMedicineService {
 
     UserChildRepository userChildRepository;
     ChildMedicineRepository childMedicineRepository;
     MedicineItemRepository medicineItemRepository;
     MedicinesRepository medicinesRepository;
-    private final Logger LOGGER = LoggerFactory.getLogger(MedicineServiceImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
     @Autowired
-    MedicineServiceImpl(UserChildRepository userChildRepository,ChildMedicineRepository childMedicineRepository,
-                        MedicineItemRepository medicineItemRepository,
-                        MedicinesRepository medicinesRepository
+    ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
+                             MedicineItemRepository medicineItemRepository,
+                             MedicinesRepository medicinesRepository
     ){
         this.userChildRepository = userChildRepository;
         this.childMedicineRepository = childMedicineRepository;
