@@ -46,4 +46,6 @@ public class ChildMedicine extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "childMedicine")
     List<Alarm> alarms = new ArrayList<>(); // 하나의 복용 약은 여러 개의 알림을 가질 수 있다.
+
+
 }

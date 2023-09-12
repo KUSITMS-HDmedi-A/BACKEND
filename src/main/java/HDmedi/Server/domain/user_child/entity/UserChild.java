@@ -1,9 +1,12 @@
 package HDmedi.Server.domain.user_child.entity;
 
+import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +36,6 @@ public class UserChild {
     @JoinColumn(name = "user_entity_id")
     private UserEntity userEntity;
 
-    //@OneToMany(mappedBy = "userChild")
-    //private List<ChildMedicine> childMedicines = new ArrayList<>();
+    @OneToMany(mappedBy = "userChild")
+    private List<ChildMedicine> childMedicines = new ArrayList<>();
 }
