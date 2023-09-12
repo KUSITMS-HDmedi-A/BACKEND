@@ -117,6 +117,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
                 enrollMedicineDTO.setCharacterName(childMedicine.getPurpose());
                 enrollMedicineDTO.setStartDate(String.valueOf(childMedicine.getStartDate()));
                 enrollMedicineDTO.setEndDate(String.valueOf(childMedicine.getEndDate()));
+                enrollMedicineDTO.setMedicineCount(childMedicine.getMedicines().size());
 
                 List<MedicineManageResponseDto.MedicineDTO> medicineDTOS = new ArrayList<>();
 

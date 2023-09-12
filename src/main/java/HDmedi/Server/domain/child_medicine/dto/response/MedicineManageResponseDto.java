@@ -38,6 +38,7 @@ public class MedicineManageResponseDto extends ResponseDto {
         private String characterName;
         private String startDate;
         private String endDate;
+        private int medicineCount;
         private List<MedicineDTO> medicineList;
     }
 
