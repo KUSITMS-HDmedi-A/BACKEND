@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,11 +37,18 @@ public class QuestionServiceImpl implements QuestionService {
         List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);
 
 
-        String[] questions = new String[question.size()];
+      //  String[] questions = new String[question.size()];
         String[] characterList = new String[userChildList.size()];
-
+        List<AdhdTestResponseDto.Questions> questionsList = new ArrayList<>(question.size());
         for(int i = 0; i < question.size(); i++){
-            questions[i] = question.get(i).getDescription();
+           // questions[i] = question.get(i).getDescription();
+            AdhdTestResponseDto.Questions questions = new AdhdTestResponseDto.Questions();
+            questions.setDescription(question.get(i).getDescription());
+            questions.setBlue(question.get(i).getSummary());
+
+            questionsList.add(questions);
+
+
         }
         for(int i = 0; i < userChildList.size(); i++){
             characterList[i] = userChildList.get(i).getName();
@@ -50,7 +58,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         adhdTestResponseDto.setCode(200);
         adhdTestResponseDto.setMessage("OK");
-        adhdTestResponseDto.setQuestion(questions);
+        adhdTestResponseDto.setQuestionsList(questionsList);
         adhdTestResponseDto.setCharacter(characterList);
 
         return adhdTestResponseDto;
