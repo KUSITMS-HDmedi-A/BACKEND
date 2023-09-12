@@ -60,9 +60,5 @@ public class MedicineManageResponseDto extends ResponseDto {
 
         private String tag;
     }
-
-
-
-
 }
 

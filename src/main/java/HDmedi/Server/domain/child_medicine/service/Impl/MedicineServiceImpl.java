@@ -124,10 +124,16 @@ LOGGER.info(String.valueOf(userChild.getId()));
                     MedicineManageResponseDto.MedicineDTO medicineDTO = new MedicineManageResponseDto.MedicineDTO();
                     medicineDTO.setName(medicines.getMedicineItem().getName());
 
+                    List<MedicineManageResponseDto.TagDTO> tagDTOS = new ArrayList<>(medicines.getMedicineItem().getTags().size());
+
                     for(Tag tag : medicines.getMedicineItem().getTags()){
                         MedicineManageResponseDto.TagDTO tagDTO = new MedicineManageResponseDto.TagDTO();
-                        tagDTO.setTag(String.valueOf(tag.getType()));
+                        tagDTO.setTag(tag.getType());
+
+
+                        tagDTOS.add(tagDTO);
                     }
+                    medicineDTO.setTagList(tagDTOS);
 
                     medicineDTOS.add(medicineDTO);
                 }
