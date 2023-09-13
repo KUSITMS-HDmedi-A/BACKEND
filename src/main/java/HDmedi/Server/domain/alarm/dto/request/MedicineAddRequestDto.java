@@ -1,11 +1,9 @@
 package HDmedi.Server.domain.alarm.dto.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.sql.Time;
 import java.time.LocalDate;
 
@@ -15,16 +13,21 @@ import java.time.LocalDate;
 @Builder
 public class MedicineAddRequestDto {
 
+    @NotBlank
     private String character;
+
+    @NotBlank
     private String medicine;
 
+
     private LocalDate startDate;
+
     private LocalDate endDate;
 
     private Time time;
 
     private String[] day;
-
+    @NotBlank
     private String label;
 
 }

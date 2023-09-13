@@ -1,6 +1,7 @@
 package HDmedi.Server.domain.child_medicine.service.Impl;
 
 
+import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
@@ -32,16 +33,20 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     ChildMedicineRepository childMedicineRepository;
     MedicineItemRepository medicineItemRepository;
     MedicinesRepository medicinesRepository;
+
+
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
     @Autowired
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
                              MedicineItemRepository medicineItemRepository,
-                             MedicinesRepository medicinesRepository
+                             MedicinesRepository medicinesRepository,
+                             AlarmDateRepository alarmDateRepository
     ){
         this.userChildRepository = userChildRepository;
         this.childMedicineRepository = childMedicineRepository;
         this.medicineItemRepository = medicineItemRepository;
         this.medicinesRepository = medicinesRepository;
+
     }
     @Override
     public ResponseDto enrollMedicine(Long userId, EnrollMedicineRequestDto enrollMedicineRequestDto) {

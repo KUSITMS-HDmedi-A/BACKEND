@@ -10,6 +10,8 @@ public interface ChildMedicineRepository extends JpaRepository<ChildMedicine, Lo
 
     List<ChildMedicine> findByUserChild(UserChild userChild);
 
+    ChildMedicine findAllByPurposeAndUserChild(String purpose, UserChild userChild);
+
 
 
 }

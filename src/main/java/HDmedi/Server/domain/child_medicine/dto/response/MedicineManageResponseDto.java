@@ -2,6 +2,7 @@ package HDmedi.Server.domain.child_medicine.dto.response;
 
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 public class MedicineManageResponseDto extends ResponseDto {
@@ -25,7 +26,6 @@ public class MedicineManageResponseDto extends ResponseDto {
     public static class CharacterDTO {
         private String characterName;
         private List<EnrollMedicineDTO> enrollMedicineList;
-
 
     }
 

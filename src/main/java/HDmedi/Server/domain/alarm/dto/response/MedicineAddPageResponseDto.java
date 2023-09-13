@@ -1,20 +1,39 @@
 package HDmedi.Server.domain.alarm.dto.response;
 
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
+@SuperBuilder
 public class MedicineAddPageResponseDto extends ResponseDto {
 
-    private String[] character;
-    private String[] medicine;
 
+    private List<CharacterDto> characterData;
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class CharacterDto{
+        private String characterName;
+        private List<MedicineDto> medicine;
+
+
+    }
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class MedicineDto{
+
+        private String purpose;
+    }
 
 }

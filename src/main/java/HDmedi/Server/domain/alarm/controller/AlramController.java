@@ -9,6 +9,7 @@ import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
 import HDmedi.Server.global.config.security.CustomUser;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,22 +22,15 @@ import java.text.ParseException;
 
 
 @RestController
-@RequestMapping("/api/alram")
+@RequestMapping("/api/alarm")
 public class AlramController {
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineController.class);
-
-
     private final AlramService alramService;
-
 
     @Autowired
     public AlramController(AlramService alramService) {
         this.alramService = alramService;
     }
-
-
-
-
 
     @ApiImplicitParam(
             name = "access",
@@ -51,7 +45,7 @@ public class AlramController {
     @PostMapping(value = "/dosage-record")
     public ResponseDto enrollRecord(
             @AuthenticationPrincipal CustomUser customUser,
-            @Validated @RequestBody EnrollRecordRequestDto enrollRecordRequestDto
+            @ApiParam(value = "요청 해줘", required = true)  @Validated @RequestBody EnrollRecordRequestDto enrollRecordRequestDto
     )  {
 
         ResponseDto responseDto = alramService.enrollRecord(customUser.getUserId(), enrollRecordRequestDto);
@@ -92,10 +86,10 @@ public class AlramController {
     )
     @ApiResponse(code = 200, message = "Success", response = ResponseDto.class)
     @ApiOperation(value = "알람 추가 ", notes = "알람 추가 API")
-    @GetMapping(value = "/medicine-add")
+    @PostMapping(value = "/medicine-add")
     public ResponseDto medicineAdd(
             @AuthenticationPrincipal CustomUser customUser,
-            @Validated @RequestBody MedicineAddRequestDto medicineAddRequest
+            @ApiParam(value = "요청 해줘", required = true) @Validated @RequestBody MedicineAddRequestDto medicineAddRequest
     ) throws ParseException {
 
         ResponseDto responseDto = alramService.medicineAdd(customUser.getUserId(), medicineAddRequest);
