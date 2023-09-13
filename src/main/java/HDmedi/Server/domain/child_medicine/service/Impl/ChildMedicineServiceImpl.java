@@ -1,8 +1,12 @@
 package HDmedi.Server.domain.child_medicine.service.Impl;
 
 
+import HDmedi.Server.domain.alarm.entity.Alarm;
+import HDmedi.Server.domain.alarm.repository.AlramRepository;
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
+import HDmedi.Server.domain.child_medicine.dto.response.DoseRecordResponseDto;
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
@@ -24,15 +28,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 
+@Transactional
 @Service
 public class ChildMedicineServiceImpl implements ChildMedicineService {
 
-    UserChildRepository userChildRepository;
-    ChildMedicineRepository childMedicineRepository;
-    MedicineItemRepository medicineItemRepository;
-    MedicinesRepository medicinesRepository;
+    public final UserChildRepository userChildRepository;
+    public final ChildMedicineRepository childMedicineRepository;
+    public final MedicineItemRepository medicineItemRepository;
+    public final MedicinesRepository medicinesRepository;
+    public final AlramRepository alramRepository;
+    public final AlarmDateRepository alarmDateRepository;
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
@@ -40,13 +48,14 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
                              MedicineItemRepository medicineItemRepository,
                              MedicinesRepository medicinesRepository,
-                             AlarmDateRepository alarmDateRepository
-    ){
+                             AlramRepository alramRepository,
+                             AlarmDateRepository alarmDateRepository){
         this.userChildRepository = userChildRepository;
         this.childMedicineRepository = childMedicineRepository;
         this.medicineItemRepository = medicineItemRepository;
         this.medicinesRepository = medicinesRepository;
-
+        this.alramRepository = alramRepository;
+        this.alarmDateRepository = alarmDateRepository;
     }
     @Override
     public ResponseDto enrollMedicine(Long userId, EnrollMedicineRequestDto enrollMedicineRequestDto) {
@@ -97,7 +106,6 @@ LOGGER.info(String.valueOf(userChild.getId()));
     }
 
     @Override
-    @Transactional
     public MedicineManageResponseDto selectMedicineManage(Long userId) {
 
         UserEntity userEntity = new UserEntity();
@@ -154,5 +162,52 @@ LOGGER.info(String.valueOf(userChild.getId()));
         medicineManageResponseDto.setCode(200);
 
         return medicineManageResponseDto;
+    }
+
+    @Override
+    public DoseRecordResponseDto doseRecord(Long userId) {
+
+        UserEntity userEntity = UserEntity.builder().id(userId).build();
+
+        List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);  // 반복문
+        //      List<ChildMedicine> childMedicineList = childMedicineRepository.findByUserChild(userChild);  //반복문
+        //     List<Alarm> alarmList = alramRepository.findAllByChildMedicine(childMedicineList); // 반복문
+
+       AlarmDate alarmDate = alarmDateRepository.findByAlramDate(LocalDate.now());
+
+       List<DoseRecordResponseDto.DoseCharacterDto> doseCharacterDtos = new ArrayList<>(userChildList.size());
+
+       for( UserChild userChild : userChildList){
+
+           List<DoseRecordResponseDto.DoseAlarmDto> doseAlarmDtos = new ArrayList<>();
+
+           int i = 0;
+           for(ChildMedicine childMedicine : userChild.getChildMedicines()){
+
+               DoseRecordResponseDto.DoseAlarmDto doseAlarmDtoList = DoseRecordResponseDto.DoseAlarmDto.builder()  // 여기서 index문제
+                       .doseSign(childMedicine.getAlarms().get(i).getAlramDates().get(i).getDoseSign())
+                       .label(childMedicine.getAlarms().get(i).getLabel())
+                       .time(childMedicine.getAlarms().get(i).getTime())
+                       .count(childMedicine.getMedicines().size())
+                       .build();
+               i++;
+               doseAlarmDtos.add(doseAlarmDtoList);
+           }
+
+           DoseRecordResponseDto.DoseCharacterDto doseCharacterDto = DoseRecordResponseDto.DoseCharacterDto.builder()
+                   .character(userChild.getName())
+                   .doseAlarmList(doseAlarmDtos)
+                   .build();
+
+           doseCharacterDtos.add(doseCharacterDto);
+       }
+
+       DoseRecordResponseDto doseRecordResponseDto = DoseRecordResponseDto.builder()
+               .characterList(doseCharacterDtos)
+               .code(200)
+               .message("OK")
+               .build();
+
+        return doseRecordResponseDto;
     }
 }

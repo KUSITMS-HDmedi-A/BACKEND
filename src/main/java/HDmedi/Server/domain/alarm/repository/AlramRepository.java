@@ -10,4 +10,6 @@ import java.util.List;
 public interface AlramRepository extends JpaRepository<Alarm, Long> {
     List<Alarm> findByStartDateLessThanEqualAndEndDateGreaterThanEqualAndChildMedicine(Date today1, Date today2, ChildMedicine childMedicine);
 
+
+    List<Alarm> findAllByChildMedicine(ChildMedicine childMedicine);
 }
