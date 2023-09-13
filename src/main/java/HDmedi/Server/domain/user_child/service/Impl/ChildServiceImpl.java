@@ -1,8 +1,7 @@
 package HDmedi.Server.domain.user_child.service.Impl;
 
 
-import HDmedi.Server.domain.alram.entity.Alarm;
-import HDmedi.Server.domain.alram.repository.AlramRepository;
+import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.user_child.dto.request.NewChildRequestDto;
 import HDmedi.Server.domain.user_child.dto.response.HomeResponseDto;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;

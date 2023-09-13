@@ -1,4 +1,4 @@
-package HDmedi.Server.domain.alram.dto.request;
+package HDmedi.Server.domain.alarm.dto.request;
 
 import lombok.*;
 

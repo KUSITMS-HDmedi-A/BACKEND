@@ -1,6 +1,6 @@
 package HDmedi.Server.domain.child_medicine.entity;
 
-import HDmedi.Server.domain.alram.entity.Alarm;
+import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.medicines.entity.Medicines;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
