@@ -25,6 +25,9 @@ public class Tag extends BaseTimeEntity {
     @JoinColumn(name = "medicine_item_id")
     MedicineItem medicineItem;
 
-    @Enumerated(EnumType.STRING)
-    private TagType type;
+//    @Enumerated(EnumType.STRING)
+//    private TagType type;
+    @Column(name = "type")
+    private String type;
+
 }

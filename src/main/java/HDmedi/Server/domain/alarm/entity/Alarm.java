@@ -1,21 +1,23 @@
-package HDmedi.Server.domain.alram.entity;
+package HDmedi.Server.domain.alarm.entity;
+
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
+import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
+import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AllArgsConstructor
+@Builder
 @Table(name = "tb_alarm")
 public class Alarm extends BaseTimeEntity {
     @Id
@@ -33,12 +35,15 @@ public class Alarm extends BaseTimeEntity {
     @Column(name = "end_date")
     LocalDate endDate; // 알림 끝 날짜
 
-    @Column(name = "is_done")
-    Boolean isDone = false; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
-
     @Column(name = "record")
     String record; // 알람/복용 기록
 
     @Column(name = "label")
     String label; // 메모
+
+    @Column(name = "time")
+    Time time; // 시간
+
+    @OneToMany(mappedBy = "alarm")
+    private List<AlarmDate> alramDates = new ArrayList<>();
 }

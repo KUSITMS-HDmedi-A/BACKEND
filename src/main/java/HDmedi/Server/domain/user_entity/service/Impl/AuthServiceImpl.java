@@ -9,7 +9,7 @@ import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.domain.user_entity.service.AuthService;
 import HDmedi.Server.global.config.security.JwtTokenProvider;
 import HDmedi.Server.global.exception.unauthorized.TokenExpiredException;
-import org.apache.catalina.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

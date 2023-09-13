@@ -1,6 +1,6 @@
-package HDmedi.Server.domain.alram.repository;
+package HDmedi.Server.domain.alarm.repository;
 
-import HDmedi.Server.domain.alram.entity.Alarm;
+import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
