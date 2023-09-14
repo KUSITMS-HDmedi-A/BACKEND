@@ -1,22 +1,25 @@
-package HDmedi.Server.domain.alram.entity;
+package HDmedi.Server.domain.alarm.entity;
+
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
+import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
+import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AllArgsConstructor
+@Builder
 @Table(name = "tb_alarm")
 public class Alarm extends BaseTimeEntity {
     @Id
@@ -42,6 +45,9 @@ public class Alarm extends BaseTimeEntity {
 
     @Column(name = "label")
     String label; // 메모
+
+    @OneToMany(mappedBy = "alarm")
+    private List<AlarmDate> alramDates = new ArrayList<>();
 
     @Column(name = "time")
     LocalTime time; // 시간

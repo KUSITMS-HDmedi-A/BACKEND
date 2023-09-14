@@ -3,7 +3,6 @@ package HDmedi.Server.domain.alram.repository;
 import HDmedi.Server.domain.alram.entity.Alarm;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;

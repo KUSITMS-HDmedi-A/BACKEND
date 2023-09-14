@@ -25,9 +25,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/home/new-child",
-                        "/api/medicine/enroll-medicine",
+                        "/api/child-medicine/enroll-medicine",
                         "/api/adhd/test/result",
-                        "/api/adhd/test"
+                        "/api/adhd/test",
+                        "/api/child-medicine/medicine-manage",
+                        "/api/alarm/add-page",
+                        "/api/alarm/add",
+                        "/api/child-medicine/dose-record"
+
                 ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
