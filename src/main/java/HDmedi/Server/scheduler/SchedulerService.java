@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class schedulerService {
+public class SchedulerService {
     private final AlramRepository alramRepository;
     private final FirebaseService firebaseService;
     private final UserRepository userRepository;
