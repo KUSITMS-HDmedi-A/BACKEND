@@ -35,6 +35,9 @@ public class UserEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
+    @Column(name = "firebase_token")
+    private String firebaseToken;
+
     @OneToMany(mappedBy = "userEntity")
     private List<UserChild> userChildEntities = new ArrayList<>();
 }
