@@ -1,12 +1,14 @@
 package HDmedi.Server.domain.child_medicine.service.Impl;
 
 
+
 import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
 import HDmedi.Server.domain.child_medicine.dto.response.DoseRecordResponseDto;
+
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
@@ -28,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -43,19 +46,24 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     public final AlarmDateRepository alarmDateRepository;
 
 
+
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
     @Autowired
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
                              MedicineItemRepository medicineItemRepository,
                              MedicinesRepository medicinesRepository,
+
                              AlramRepository alramRepository,
                              AlarmDateRepository alarmDateRepository){
+
         this.userChildRepository = userChildRepository;
         this.childMedicineRepository = childMedicineRepository;
         this.medicineItemRepository = medicineItemRepository;
         this.medicinesRepository = medicinesRepository;
+
         this.alramRepository = alramRepository;
         this.alarmDateRepository = alarmDateRepository;
+
     }
     @Override
     public ResponseDto enrollMedicine(Long userId, EnrollMedicineRequestDto enrollMedicineRequestDto) {
@@ -112,6 +120,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
         userEntity.setId(userId);
         List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);
 
+
         List<MedicineManageResponseDto.CharacterDTO> characterDTOS = new ArrayList<>(userChildList.size());
 
         for (UserChild userChild : userChildList) {
@@ -162,6 +171,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
         return medicineManageResponseDto;
     }
 
+
     @Override
     public DoseRecordResponseDto doseRecord(Long userId, LocalDate today) {
         UserEntity userEntity = UserEntity.builder().id(userId).build();
@@ -206,4 +216,5 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
         return doseRecordResponseDto;
     }
+
 }

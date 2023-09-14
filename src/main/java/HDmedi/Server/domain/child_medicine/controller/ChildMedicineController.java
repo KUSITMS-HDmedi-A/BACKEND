@@ -2,7 +2,9 @@ package HDmedi.Server.domain.child_medicine.controller;
 
 
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
+
 import HDmedi.Server.domain.child_medicine.dto.response.DoseRecordResponseDto;
+
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.service.ChildMedicineService;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+
 @RestController
 @RequestMapping("/api/child-medicine")
 public class ChildMedicineController {
@@ -31,9 +34,11 @@ public class ChildMedicineController {
 
 
 
+
     @Autowired
     public ChildMedicineController(ChildMedicineService medicineService) {
         this.medicineService = medicineService;
+
     }
 
 
@@ -77,13 +82,16 @@ public class ChildMedicineController {
             @AuthenticationPrincipal CustomUser customUser)  {
 
 
+
         MedicineManageResponseDto medicineManageResponseDto = medicineService.selectMedicineManage(customUser.getUserId());
+
 
 
         LOGGER.info("약 관리 페이지 데이터 전송 완료");
 
         return medicineManageResponseDto;
     }
+
 
 
     @ApiImplicitParam(
