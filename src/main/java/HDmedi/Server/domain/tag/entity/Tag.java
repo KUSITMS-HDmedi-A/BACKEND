@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,9 +26,22 @@ public class Tag extends BaseTimeEntity {
     @JoinColumn(name = "medicine_item_id")
     MedicineItem medicineItem;
 
-//    @Enumerated(EnumType.STRING)
-//    private TagType type;
     @Column(name = "type")
     private String type;
+
+    public boolean isItEfficacy() {
+        // 해당 태그가 효능 태그 인지 확인 
+        return Objects.equals(type, "E");
+    }
+    public boolean isItWarning() {
+        // 해당 태그가 위험/경고 태그인지 확인
+        return Objects.equals(type, "W");
+    }
+    public void setEfficacy(){
+        this.type = "E";
+    }
+    public void setWarning(){
+        this.type = "W";
+    }
 
 }
