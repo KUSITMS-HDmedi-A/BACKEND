@@ -21,4 +21,7 @@ public class Question extends BaseTimeEntity {
 
     @Column(name = "description")
     String description;
+
+    @Column(name = "summary")
+    String summary;
 }

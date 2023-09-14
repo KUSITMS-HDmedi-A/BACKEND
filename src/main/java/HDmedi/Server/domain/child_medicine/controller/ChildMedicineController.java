@@ -78,10 +78,13 @@ public class ChildMedicineController {
 
 
         MedicineManageResponseDto medicineManageResponseDto = medicineService.selectMedicineManage(customUser.getUserId());
+
+
         LOGGER.info("약 관리 페이지 데이터 전송 완료");
 
         return medicineManageResponseDto;
     }
+
 
     @ApiImplicitParam(
             name = "access",
@@ -96,7 +99,7 @@ public class ChildMedicineController {
     @GetMapping(value = "/dose-record/{todayDate}")
     public DoseRecordResponseDto doseRecord(
             @AuthenticationPrincipal CustomUser customUser,
-            @ApiParam(value = "요청 해줘", required = true) @PathVariable("todayDate") String today
+            @PathVariable("todayDate") String today
             )  {
 
         DoseRecordResponseDto doseRecordResponseDto = medicineService.doseRecord(customUser.getUserId(), LocalDate.parse(today));
@@ -105,4 +108,10 @@ public class ChildMedicineController {
 
         return doseRecordResponseDto;
     }
+
+
+
+
+
+
 }

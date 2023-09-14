@@ -106,6 +106,7 @@ public class AlramServiceImpl implements AlramService {
     }
 
 
+
     @Override
     public ResponseDto medicineAdd(Long userId, MedicineAddRequestDto medicineAddRequestDto) throws ParseException {
 
@@ -116,6 +117,7 @@ public class AlramServiceImpl implements AlramService {
         ChildMedicine childMedicine = childMedicineRepository.findAllByPurposeAndUserChild(medicineAddRequestDto.getMedicine(), userChild);
 
         LOGGER.info(String.valueOf(childMedicine));
+
         Alarm alarm = Alarm.builder()
                 .label(medicineAddRequestDto.getLabel())
                 .startDate(medicineAddRequestDto.getStartDate())
