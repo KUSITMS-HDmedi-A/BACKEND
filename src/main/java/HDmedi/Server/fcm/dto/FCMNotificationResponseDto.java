@@ -1,6 +1,5 @@
-package HDmedi.Server.fcm;
+package HDmedi.Server.fcm.dto;
 
-import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.Setter;
 public class FCMNotificationResponseDto {
     Long Id;
 
-    public static FCMNotificationResponseDto of(UserEntity user) {
-        return new FCMNotificationResponseDto(user.getId());
+    public static FCMNotificationResponseDto of(Long userId) {
+        return new FCMNotificationResponseDto(userId);
     }
 }
