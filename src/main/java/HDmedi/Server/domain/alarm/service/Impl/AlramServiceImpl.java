@@ -143,7 +143,7 @@ public class AlramServiceImpl implements AlramService {
         for(int i = 0; i < dates.size(); i++){
 
             AlarmDate alarmDate = AlarmDate.builder()
-                    .alramDate(LocalDate.parse(dates.get(i)))
+                    .date(LocalDate.parse(dates.get(i)))
                     .alarm(alarm)
                     .doseSign(false)
                     .build();

@@ -20,8 +20,8 @@ public class AlarmDate extends BaseTimeEntity {
     @Column(name = "alram_date_id")
     private Long id;
 
-    @Column(name = "alram_date")
-    private LocalDate alramDate;
+    @Column(name = "date")
+    private LocalDate date;
 
     @Column(name = "dose_sign")
     private Boolean doseSign;
