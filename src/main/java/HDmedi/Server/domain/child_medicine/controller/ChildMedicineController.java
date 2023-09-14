@@ -2,6 +2,7 @@ package HDmedi.Server.domain.child_medicine.controller;
 
 
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
+import HDmedi.Server.domain.child_medicine.dto.response.DoseRecordResponseDto;
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.service.ChildMedicineService;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
@@ -18,6 +19,8 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/child-medicine")
 public class ChildMedicineController {
@@ -26,12 +29,11 @@ public class ChildMedicineController {
 
     private final ChildMedicineService medicineService;
 
-    private final JwtTokenProvider jwtTokenProvider;
+
 
     @Autowired
-    public ChildMedicineController(ChildMedicineService medicineService, JwtTokenProvider jwtTokenProvider) {
+    public ChildMedicineController(ChildMedicineService medicineService) {
         this.medicineService = medicineService;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
 
@@ -75,12 +77,36 @@ public class ChildMedicineController {
             @AuthenticationPrincipal CustomUser customUser)  {
 
 
-       MedicineManageResponseDto medicineManageResponseDto = medicineService.selectMedicineManage(customUser.getUserId());
+        MedicineManageResponseDto medicineManageResponseDto = medicineService.selectMedicineManage(customUser.getUserId());
 
 
         LOGGER.info("약 관리 페이지 데이터 전송 완료");
 
         return medicineManageResponseDto;
+    }
+
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = DoseRecordResponseDto.class)
+    @ApiOperation(value = "복용 기록", notes = "복용 기록 데이터 조회")
+    @GetMapping(value = "/dose-record/{todayDate}")
+    public DoseRecordResponseDto doseRecord(
+            @AuthenticationPrincipal CustomUser customUser,
+            @PathVariable("todayDate") String today
+            )  {
+
+        DoseRecordResponseDto doseRecordResponseDto = medicineService.doseRecord(customUser.getUserId(), LocalDate.parse(today));
+
+        LOGGER.info("복용 기록 데이터 전송 완료");
+
+        return doseRecordResponseDto;
     }
 
 

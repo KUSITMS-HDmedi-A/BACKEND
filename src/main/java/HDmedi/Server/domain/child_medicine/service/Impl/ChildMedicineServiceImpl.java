@@ -1,8 +1,14 @@
 package HDmedi.Server.domain.child_medicine.service.Impl;
 
 
+
+import HDmedi.Server.domain.alarm.entity.Alarm;
+import HDmedi.Server.domain.alarm.repository.AlramRepository;
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
 import HDmedi.Server.domain.child_medicine.dto.request.EnrollMedicineRequestDto;
+import HDmedi.Server.domain.child_medicine.dto.response.DoseRecordResponseDto;
+
 import HDmedi.Server.domain.child_medicine.dto.response.MedicineManageResponseDto;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
@@ -24,15 +30,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.time.LocalDate;
 import java.util.*;
 
+@Transactional
 @Service
 public class ChildMedicineServiceImpl implements ChildMedicineService {
 
-    UserChildRepository userChildRepository;
-    ChildMedicineRepository childMedicineRepository;
-    MedicineItemRepository medicineItemRepository;
-    MedicinesRepository medicinesRepository;
+    public final UserChildRepository userChildRepository;
+    public final ChildMedicineRepository childMedicineRepository;
+    public final MedicineItemRepository medicineItemRepository;
+    public final MedicinesRepository medicinesRepository;
+    public final AlramRepository alramRepository;
+    public final AlarmDateRepository alarmDateRepository;
+
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
@@ -40,12 +52,17 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
                              MedicineItemRepository medicineItemRepository,
                              MedicinesRepository medicinesRepository,
-                             AlarmDateRepository alarmDateRepository
-    ){
+
+                             AlramRepository alramRepository,
+                             AlarmDateRepository alarmDateRepository){
+
         this.userChildRepository = userChildRepository;
         this.childMedicineRepository = childMedicineRepository;
         this.medicineItemRepository = medicineItemRepository;
         this.medicinesRepository = medicinesRepository;
+
+        this.alramRepository = alramRepository;
+        this.alarmDateRepository = alarmDateRepository;
 
     }
     @Override
@@ -97,13 +114,11 @@ LOGGER.info(String.valueOf(userChild.getId()));
     }
 
     @Override
-    @Transactional
     public MedicineManageResponseDto selectMedicineManage(Long userId) {
 
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userId);
         List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);
-
 
 
         List<MedicineManageResponseDto.CharacterDTO> characterDTOS = new ArrayList<>(userChildList.size());
@@ -155,4 +170,51 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
         return medicineManageResponseDto;
     }
+
+
+    @Override
+    public DoseRecordResponseDto doseRecord(Long userId, LocalDate today) {
+        UserEntity userEntity = UserEntity.builder().id(userId).build();
+        List<AlarmDate> alarmDateList = alarmDateRepository.findTodayAlarmDatesByUserEntity(userEntity, today);
+
+
+        Map<String, DoseRecordResponseDto.DoseCharacterDto> characterMap = new HashMap<>();
+
+        for (AlarmDate alarmDate : alarmDateList) {
+            Alarm alarm = alarmDate.getAlarm();
+            ChildMedicine childMedicine = alarm.getChildMedicine();
+            UserChild userChild = childMedicine.getUserChild();
+            String name = userChild.getName();
+
+            DoseRecordResponseDto.DoseCharacterDto characterDto = characterMap.getOrDefault(name,
+                    DoseRecordResponseDto.DoseCharacterDto.builder()
+                            .name(name)
+                            .doseAlarmList(new ArrayList<>())
+                            .build());
+
+
+            DoseRecordResponseDto.DoseAlarmDto alarmDto = DoseRecordResponseDto.DoseAlarmDto.builder()
+                    .time(alarm.getTime())
+                    .count(childMedicine.getMedicines().size())
+                    .doseSign(alarmDate.getDoseSign())
+                    .label(alarm.getLabel())
+                    .record(alarm.getRecord())
+                    .build();
+
+            characterDto.getDoseAlarmList().add(alarmDto);
+
+            characterMap.put(name, characterDto);
+        }
+
+        List<DoseRecordResponseDto.DoseCharacterDto> characterList = new ArrayList<>(characterMap.values());
+
+        DoseRecordResponseDto doseRecordResponseDto = DoseRecordResponseDto.builder()
+                .characterList(characterList)
+                .code(200)
+                .message("OK")
+                .build();
+
+        return doseRecordResponseDto;
+    }
+
 }

@@ -65,7 +65,9 @@ public class AlramController {
     )
     @ApiResponse(code = 200, message = "Success", response = MedicineAddPageResponseDto.class)
     @ApiOperation(value = "알람 추가 랜더링", notes = "알람 추가 페이지 랜더링 시 데이터 API")
-    @GetMapping(value = "/medicine-add-page")
+
+    @GetMapping(value = "/add-page")
+
     public MedicineAddPageResponseDto medicineAddPage(
             @AuthenticationPrincipal CustomUser customUser
     )  {
@@ -86,7 +88,9 @@ public class AlramController {
     )
     @ApiResponse(code = 200, message = "Success", response = ResponseDto.class)
     @ApiOperation(value = "알람 추가 ", notes = "알람 추가 API")
-    @PostMapping(value = "/medicine-add")
+
+    @PostMapping(value = "/add")
+
     public ResponseDto medicineAdd(
             @AuthenticationPrincipal CustomUser customUser,
             @ApiParam(value = "요청 해줘", required = true) @Validated @RequestBody MedicineAddRequestDto medicineAddRequest

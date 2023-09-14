@@ -105,6 +105,8 @@ public class AlramServiceImpl implements AlramService {
         return medicineAddPageResponseDto;
     }
 
+
+
     @Override
     public ResponseDto medicineAdd(Long userId, MedicineAddRequestDto medicineAddRequestDto) throws ParseException {
 
@@ -113,6 +115,8 @@ public class AlramServiceImpl implements AlramService {
         UserChild userChild = userChildRepository.findByNameAndUserEntity(medicineAddRequestDto.getCharacter(),userEntity);
 
         ChildMedicine childMedicine = childMedicineRepository.findAllByPurposeAndUserChild(medicineAddRequestDto.getMedicine(), userChild);
+
+        LOGGER.info(String.valueOf(childMedicine));
 
         Alarm alarm = Alarm.builder()
                 .label(medicineAddRequestDto.getLabel())
