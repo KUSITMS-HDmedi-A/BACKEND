@@ -19,6 +19,8 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/child-medicine")
 public class ChildMedicineController {
@@ -94,11 +96,13 @@ public class ChildMedicineController {
     )
     @ApiResponse(code = 200, message = "Success", response = DoseRecordResponseDto.class)
     @ApiOperation(value = "복용 기록", notes = "복용 기록 데이터 조회")
-    @GetMapping(value = "/dose-record")
+    @GetMapping(value = "/dose-record/{todayDate}")
     public DoseRecordResponseDto doseRecord(
-            @AuthenticationPrincipal CustomUser customUser)  {
+            @AuthenticationPrincipal CustomUser customUser,
+            @PathVariable("todayDate") String today
+            )  {
 
-        DoseRecordResponseDto doseRecordResponseDto = medicineService.doseRecord(customUser.getUserId());
+        DoseRecordResponseDto doseRecordResponseDto = medicineService.doseRecord(customUser.getUserId(), LocalDate.parse(today));
 
         LOGGER.info("복용 기록 데이터 전송 완료");
 

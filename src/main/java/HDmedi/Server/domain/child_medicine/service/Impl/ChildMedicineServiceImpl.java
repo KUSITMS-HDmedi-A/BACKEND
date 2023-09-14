@@ -112,8 +112,6 @@ LOGGER.info(String.valueOf(userChild.getId()));
         userEntity.setId(userId);
         List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);
 
-
-
         List<MedicineManageResponseDto.CharacterDTO> characterDTOS = new ArrayList<>(userChildList.size());
 
         for (UserChild userChild : userChildList) {
@@ -165,53 +163,46 @@ LOGGER.info(String.valueOf(userChild.getId()));
     }
 
     @Override
-    public DoseRecordResponseDto doseRecord(Long userId) {
-
+    public DoseRecordResponseDto doseRecord(Long userId, LocalDate today) {
         UserEntity userEntity = UserEntity.builder().id(userId).build();
+        List<AlarmDate> alarmDateList = alarmDateRepository.findTodayAlarmDatesByUserEntity(userEntity, today);
 
 
-        List<Alarm> alarmList = alramRepository.findAlarmsByUserEntity(userEntity);
+        Map<String, DoseRecordResponseDto.DoseCharacterDto> characterMap = new HashMap<>();
 
-        LOGGER.info(alarmList.get(0).getLabel());
+        for (AlarmDate alarmDate : alarmDateList) {
+            Alarm alarm = alarmDate.getAlarm();
+            ChildMedicine childMedicine = alarm.getChildMedicine();
+            UserChild userChild = childMedicine.getUserChild();
+            String name = userChild.getName();
 
-        //List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);  // 반복문
-        //      List<ChildMedicine> childMedicineList = childMedicineRepository.findByUserChild(userChild);  //반복문
-        //     List<Alarm> alarmList = alramRepository.findAllByChildMedicine(childMedicineList); // 반복문
+            DoseRecordResponseDto.DoseCharacterDto characterDto = characterMap.getOrDefault(name,
+                    DoseRecordResponseDto.DoseCharacterDto.builder()
+                            .name(name)
+                            .doseAlarmList(new ArrayList<>())
+                            .build());
 
-//       AlarmDate alarmDate = alarmDateRepository.findByAlramDate(LocalDate.now());
-//
-//       List<DoseRecordResponseDto.DoseCharacterDto> doseCharacterDtos = new ArrayList<>(userChildList.size());
-//
-//       for( UserChild userChild : userChildList){
-//
-//           List<DoseRecordResponseDto.DoseAlarmDto> doseAlarmDtos = new ArrayList<>();
-//
-//           int i = 0;
-//           for(ChildMedicine childMedicine : userChild.getChildMedicines()){
-//
-//               DoseRecordResponseDto.DoseAlarmDto doseAlarmDtoList = DoseRecordResponseDto.DoseAlarmDto.builder()  // 여기서 index문제
-//                       .doseSign(childMedicine.getAlarms().get(i).getAlramDates().get(i).getDoseSign())
-//                       .label(childMedicine.getAlarms().get(i).getLabel())
-//                       .time(childMedicine.getAlarms().get(i).getTime())
-//                       .count(childMedicine.getMedicines().size())
-//                       .build();
-//               i++;
-//               doseAlarmDtos.add(doseAlarmDtoList);
-//           }
-//
-//           DoseRecordResponseDto.DoseCharacterDto doseCharacterDto = DoseRecordResponseDto.DoseCharacterDto.builder()
-//                   .character(userChild.getName())
-//                   .doseAlarmList(doseAlarmDtos)
-//                   .build();
-//
-//           doseCharacterDtos.add(doseCharacterDto);
-//       }
 
-       DoseRecordResponseDto doseRecordResponseDto = DoseRecordResponseDto.builder()
-       //        .characterList(doseCharacterDtos)
-               .code(200)
-               .message("OK")
-               .build();
+            DoseRecordResponseDto.DoseAlarmDto alarmDto = DoseRecordResponseDto.DoseAlarmDto.builder()
+                    .time(alarm.getTime())
+                    .count(childMedicine.getMedicines().size())
+                    .doseSign(alarmDate.getDoseSign())
+                    .label(alarm.getLabel())
+                    .record(alarm.getRecord())
+                    .build();
+
+            characterDto.getDoseAlarmList().add(alarmDto);
+
+            characterMap.put(name, characterDto);
+        }
+
+        List<DoseRecordResponseDto.DoseCharacterDto> characterList = new ArrayList<>(characterMap.values());
+
+        DoseRecordResponseDto doseRecordResponseDto = DoseRecordResponseDto.builder()
+                .characterList(characterList)
+                .code(200)
+                .message("OK")
+                .build();
 
         return doseRecordResponseDto;
     }
