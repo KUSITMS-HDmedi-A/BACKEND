@@ -11,6 +11,7 @@ import net.bytebuddy.asm.Advice;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,11 +35,18 @@ public class Alarm extends BaseTimeEntity {
     LocalDate endDate; // 알림 끝 날짜
 
     @Column(name = "is_done")
-    Boolean isDone = false; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
+    Boolean isActivated = true; // 알림 상태 ( 기획 보고 enum 으로 바꾸는 것이 좋음 )
 
     @Column(name = "record")
     String record; // 알람/복용 기록
 
     @Column(name = "label")
     String label; // 메모
+
+    @Column(name = "time")
+    LocalTime time; // 시간
+
+    public void inactivateAlarm(){
+        this.isActivated = false;
+    }
 }
