@@ -23,7 +23,9 @@ public interface AlarmDateRepository extends JpaRepository<AlarmDate, Long> {
             "JOIN FETCH cm.userChild uc " +
             "JOIN uc.userEntity ue " +
             "WHERE ue = :userEntity " +
-            "AND ad.alramDate = :todayDate")
+            "AND ad.date = :todayDate")
     List<AlarmDate> findTodayAlarmDatesByUserEntity(@Param("userEntity") UserEntity userEntity, @Param("todayDate") LocalDate todayDate);
+
+    List<LocalDate> findDatesByAlarm(Alarm alarm);
 
 }
