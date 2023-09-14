@@ -1,7 +1,7 @@
 package HDmedi.Server.scheduler;
 
-import HDmedi.Server.domain.alram.entity.Alarm;
-import HDmedi.Server.domain.alram.repository.AlramRepository;
+import HDmedi.Server.domain.alarm.entity.Alarm;
+import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
 import HDmedi.Server.fcm.service.FirebaseService;

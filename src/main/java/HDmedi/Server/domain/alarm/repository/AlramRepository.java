@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface AlramRepository extends JpaRepository<Alarm, Long> {
     @Query("SELECT a FROM Alarm a JOIN FETCH a.childMedicine cm JOIN cm.userChild uc JOIN uc.userEntity ue WHERE ue = :userEntity")
     List<Alarm> findAlarmsByUserEntity(@Param("userEntity") UserEntity userEntity);
 
-
+    List<Alarm> findAllByStartDateLessThanAndIsActivatedIsFalse(LocalDate startDate);
 }
