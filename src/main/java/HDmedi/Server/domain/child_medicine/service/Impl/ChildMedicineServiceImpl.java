@@ -169,41 +169,46 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
         UserEntity userEntity = UserEntity.builder().id(userId).build();
 
-        List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);  // 반복문
+
+        List<Alarm> alarmList = alramRepository.findAlarmsByUserEntity(userEntity);
+
+        LOGGER.info(alarmList.get(0).getLabel());
+
+        //List<UserChild> userChildList = userChildRepository.findByUserEntity(userEntity);  // 반복문
         //      List<ChildMedicine> childMedicineList = childMedicineRepository.findByUserChild(userChild);  //반복문
         //     List<Alarm> alarmList = alramRepository.findAllByChildMedicine(childMedicineList); // 반복문
 
-       AlarmDate alarmDate = alarmDateRepository.findByAlramDate(LocalDate.now());
-
-       List<DoseRecordResponseDto.DoseCharacterDto> doseCharacterDtos = new ArrayList<>(userChildList.size());
-
-       for( UserChild userChild : userChildList){
-
-           List<DoseRecordResponseDto.DoseAlarmDto> doseAlarmDtos = new ArrayList<>();
-
-           int i = 0;
-           for(ChildMedicine childMedicine : userChild.getChildMedicines()){
-
-               DoseRecordResponseDto.DoseAlarmDto doseAlarmDtoList = DoseRecordResponseDto.DoseAlarmDto.builder()  // 여기서 index문제
-                       .doseSign(childMedicine.getAlarms().get(i).getAlramDates().get(i).getDoseSign())
-                       .label(childMedicine.getAlarms().get(i).getLabel())
-                       .time(childMedicine.getAlarms().get(i).getTime())
-                       .count(childMedicine.getMedicines().size())
-                       .build();
-               i++;
-               doseAlarmDtos.add(doseAlarmDtoList);
-           }
-
-           DoseRecordResponseDto.DoseCharacterDto doseCharacterDto = DoseRecordResponseDto.DoseCharacterDto.builder()
-                   .character(userChild.getName())
-                   .doseAlarmList(doseAlarmDtos)
-                   .build();
-
-           doseCharacterDtos.add(doseCharacterDto);
-       }
+//       AlarmDate alarmDate = alarmDateRepository.findByAlramDate(LocalDate.now());
+//
+//       List<DoseRecordResponseDto.DoseCharacterDto> doseCharacterDtos = new ArrayList<>(userChildList.size());
+//
+//       for( UserChild userChild : userChildList){
+//
+//           List<DoseRecordResponseDto.DoseAlarmDto> doseAlarmDtos = new ArrayList<>();
+//
+//           int i = 0;
+//           for(ChildMedicine childMedicine : userChild.getChildMedicines()){
+//
+//               DoseRecordResponseDto.DoseAlarmDto doseAlarmDtoList = DoseRecordResponseDto.DoseAlarmDto.builder()  // 여기서 index문제
+//                       .doseSign(childMedicine.getAlarms().get(i).getAlramDates().get(i).getDoseSign())
+//                       .label(childMedicine.getAlarms().get(i).getLabel())
+//                       .time(childMedicine.getAlarms().get(i).getTime())
+//                       .count(childMedicine.getMedicines().size())
+//                       .build();
+//               i++;
+//               doseAlarmDtos.add(doseAlarmDtoList);
+//           }
+//
+//           DoseRecordResponseDto.DoseCharacterDto doseCharacterDto = DoseRecordResponseDto.DoseCharacterDto.builder()
+//                   .character(userChild.getName())
+//                   .doseAlarmList(doseAlarmDtos)
+//                   .build();
+//
+//           doseCharacterDtos.add(doseCharacterDto);
+//       }
 
        DoseRecordResponseDto doseRecordResponseDto = DoseRecordResponseDto.builder()
-               .characterList(doseCharacterDtos)
+       //        .characterList(doseCharacterDtos)
                .code(200)
                .message("OK")
                .build();
