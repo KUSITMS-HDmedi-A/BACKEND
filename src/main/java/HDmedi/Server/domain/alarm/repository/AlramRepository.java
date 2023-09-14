@@ -23,5 +23,5 @@ public interface AlramRepository extends JpaRepository<Alarm, Long> {
     @Query("SELECT a FROM Alarm a JOIN FETCH a.childMedicine cm JOIN cm.userChild uc JOIN uc.userEntity ue WHERE ue = :userEntity")
     List<Alarm> findAlarmsByUserEntity(@Param("userEntity") UserEntity userEntity);
 
-    List<Alarm> findAllByStartDateLessThanAndIsActivatedIsFalse(LocalDate startDate);
+    List<Alarm> findAllByStartDateLessThanAndIsActivatedIsTrue(LocalDate startDate);
 }

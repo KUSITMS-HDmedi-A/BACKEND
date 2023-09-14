@@ -6,6 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class MedicineAddRequestDto {
 
     private LocalDate endDate;
 
-    private Time time;
+    private LocalTime time;
 
     private String[] day;
     @NotBlank

@@ -29,7 +29,7 @@ public class schedulerService {
         LocalDate curDate = LocalDate.now();
         LocalTime curTime = LocalTime.now();
         log.info("[alarm scheduler is working at " + curDate + " " + curTime);
-        List<Alarm> alarms = alramRepository.findAllByStartDateLessThanAndIsActivatedIsFalse(curDate);
+        List<Alarm> alarms = alramRepository.findAllByStartDateLessThanAndIsActivatedIsTrue(curDate);
 
         for (Alarm alarm : alarms) {
             if (alarm.getTime().equals(curTime) && alarm.getIsActivated()) {

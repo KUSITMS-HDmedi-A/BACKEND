@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ public class DoseRecordResponseDto extends ResponseDto {
     @Setter
     @Builder
     public static class DoseAlarmDto{
-        Time time;
+        LocalTime time;
         int count;
         boolean doseSign;
         String label;
