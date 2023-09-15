@@ -29,7 +29,7 @@ public class SchedulerService {
     private final FirebaseService firebaseService;
     private final UserRepository userRepository;
 
-    @Scheduled(fixedRate = 1000) // 1초에 1번씩
+    @Scheduled(fixedRate = 60000) // 1분에 1번씩
     public void alarmScheduling() {
         LocalDate curDate = LocalDate.now();
         LocalTime curTime = LocalTime.now();
