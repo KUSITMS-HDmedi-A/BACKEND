@@ -29,6 +29,9 @@ public class Tag extends BaseTimeEntity {
     @Column(name = "type")
     private String type;
 
+    @Column(name="descritpion")
+    private String description; // 태그에 대한 짧은 설명
+
     public boolean isItEfficacy() {
         // 해당 태그가 효능 태그 인지 확인 
         return Objects.equals(type, "E");
