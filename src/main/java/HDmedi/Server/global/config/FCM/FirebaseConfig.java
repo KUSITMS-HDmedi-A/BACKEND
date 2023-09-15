@@ -1,5 +1,6 @@
 package HDmedi.Server.global.config.FCM;
 
+import HDmedi.Server.global.exception.badrequest.FirebaseTokenException;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -20,7 +21,7 @@ public class FirebaseConfig {
                     .build();
             FirebaseApp.initializeApp(options);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new FirebaseTokenException();
         }
     }
 }

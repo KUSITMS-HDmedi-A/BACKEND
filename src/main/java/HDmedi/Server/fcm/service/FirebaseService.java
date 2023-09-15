@@ -5,6 +5,7 @@ import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
 import HDmedi.Server.fcm.dto.FirebaseTokenRequest;
 import HDmedi.Server.fcm.dto.FirebaseTokenResponse;
+import HDmedi.Server.global.exception.badrequest.FirebaseTokenException;
 import HDmedi.Server.global.exception.notfound.NotFoundMemberException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -42,7 +43,7 @@ public class FirebaseService {
                 FirebaseMessaging.getInstance().send(message);
                 log.info("\"알림을 성공적으로 전송했습니다. targetUserId = \" + request.getTargetUserId()");
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new FirebaseTokenException();
             }
         } else {
             log.warn("알림 전송 실패");
