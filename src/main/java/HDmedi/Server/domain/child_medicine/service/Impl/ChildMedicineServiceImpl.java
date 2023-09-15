@@ -44,6 +44,7 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     public final MedicinesRepository medicinesRepository;
     public final AlramRepository alramRepository;
     public final AlarmDateRepository alarmDateRepository;
+
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
     @Autowired
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
@@ -175,6 +176,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
     public DoseRecordResponseDto doseRecord(Long userId, LocalDate today) {
         UserEntity userEntity = UserEntity.builder().id(userId).build();
         List<AlarmDate> alarmDateList = alarmDateRepository.findTodayAlarmDatesByUserEntity(userEntity, today);
+
 
         Map<String, DoseRecordResponseDto.DoseCharacterDto> characterMap = new HashMap<>();
 
