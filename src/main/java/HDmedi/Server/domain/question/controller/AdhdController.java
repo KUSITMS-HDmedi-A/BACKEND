@@ -22,13 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class AdhdController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AdhdController.class);
-    private final JwtTokenProvider jwtTokenProvider;
 
     private final QuestionService questionService;
 
     @Autowired
-    public AdhdController(JwtTokenProvider jwtTokenProvider, QuestionService questionService) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public AdhdController(QuestionService questionService){
         this.questionService = questionService;
     }
 
