@@ -29,6 +29,12 @@ public class MedicineItem extends BaseTimeEntity {
     @Column(name = "picture_url")
     private String pictureUrl; // 사진 url
 
+    @Column(name = "medecine_effect")
+    private String effect; // 약 효과
+
+    @Column(name = "directions")
+    private String directions; // 사용법
+
     @OneToMany(mappedBy = "medicineItem")
     private List<Medicines> medicines = new ArrayList<>();
 
