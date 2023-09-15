@@ -35,7 +35,7 @@ public class MedicineManageResponseDto extends ResponseDto {
     @Setter
     @Builder
     public static class EnrollMedicineDTO {
-        private String characterName;
+        private String purpose;
         private String startDate;
         private String endDate;
         private int medicineCount;
@@ -49,17 +49,18 @@ public class MedicineManageResponseDto extends ResponseDto {
     @Builder
      public static class MedicineDTO {
         private String name;
-        private List<TagDTO> tagList;
+        private List<String> effectList;
+        private String derections;
     }
 
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    @Builder
-    public static class TagDTO {
-
-        private String tag;
-    }
+//    @NoArgsConstructor
+//    @AllArgsConstructor
+//    @Getter
+//    @Setter
+//    @Builder
+//    public static class EffectDTO {
+//
+//        private String effect;
+//    }
 }
 

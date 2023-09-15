@@ -44,9 +44,6 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     public final MedicinesRepository medicinesRepository;
     public final AlramRepository alramRepository;
     public final AlarmDateRepository alarmDateRepository;
-
-
-
     private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineServiceImpl.class);
     @Autowired
     ChildMedicineServiceImpl(UserChildRepository userChildRepository, ChildMedicineRepository childMedicineRepository,
@@ -68,8 +65,9 @@ public class ChildMedicineServiceImpl implements ChildMedicineService {
     @Override
     public ResponseDto enrollMedicine(Long userId, EnrollMedicineRequestDto enrollMedicineRequestDto) {
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(userId);
+        UserEntity userEntity = UserEntity.builder()
+                .id(userId)
+                .build();
 
 
         UserChild userChild = userChildRepository.findByNameAndUserEntity(enrollMedicineRequestDto.getCharacterName(), userEntity);
@@ -131,7 +129,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
             for (ChildMedicine childMedicine : userChild.getChildMedicines()) {
                 MedicineManageResponseDto.EnrollMedicineDTO enrollMedicineDTO = new MedicineManageResponseDto.EnrollMedicineDTO();
-                enrollMedicineDTO.setCharacterName(childMedicine.getPurpose());
+                enrollMedicineDTO.setPurpose(childMedicine.getPurpose());
                 enrollMedicineDTO.setStartDate(String.valueOf(childMedicine.getStartDate()));
                 enrollMedicineDTO.setEndDate(String.valueOf(childMedicine.getEndDate()));
                 enrollMedicineDTO.setMedicineCount(childMedicine.getMedicines().size());
@@ -142,19 +140,20 @@ LOGGER.info(String.valueOf(userChild.getId()));
                     MedicineManageResponseDto.MedicineDTO medicineDTO = new MedicineManageResponseDto.MedicineDTO();
                     medicineDTO.setName(medicines.getMedicineItem().getName());
 
-                    List<MedicineManageResponseDto.TagDTO> tagDTOS = new ArrayList<>(medicines.getMedicineItem().getTags().size());
+                    List<String> effectDTOS = new ArrayList<>(medicines.getMedicineItem().getEffect().split(",\\s*").length);
 
-                    for(Tag tag : medicines.getMedicineItem().getTags()){
-                        MedicineManageResponseDto.TagDTO tagDTO = new MedicineManageResponseDto.TagDTO();
-                        tagDTO.setTag(tag.getType());
+                    String[] effectArray = medicines.getMedicineItem().getEffect().split(",\\s*");
 
-
-                        tagDTOS.add(tagDTO);
+                    for(String effects : effectArray){
+                        effectDTOS.add(effects);
                     }
-                    medicineDTO.setTagList(tagDTOS);
+
+                    medicineDTO.setEffectList(effectDTOS);
+                    medicineDTO.setDerections( medicines.getMedicineItem().getDirections());
 
                     medicineDTOS.add(medicineDTO);
                 }
+
                 enrollMedicineDTO.setMedicineList(medicineDTOS);
                 enrollMedicineDTOS.add(enrollMedicineDTO);
             }
@@ -176,7 +175,6 @@ LOGGER.info(String.valueOf(userChild.getId()));
     public DoseRecordResponseDto doseRecord(Long userId, LocalDate today) {
         UserEntity userEntity = UserEntity.builder().id(userId).build();
         List<AlarmDate> alarmDateList = alarmDateRepository.findTodayAlarmDatesByUserEntity(userEntity, today);
-
 
         Map<String, DoseRecordResponseDto.DoseCharacterDto> characterMap = new HashMap<>();
 

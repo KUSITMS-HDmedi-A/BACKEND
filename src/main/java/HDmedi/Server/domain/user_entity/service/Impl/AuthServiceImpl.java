@@ -63,8 +63,8 @@ public class AuthServiceImpl implements AuthService {
                 .builder()
                 .code(200)
                 .message("OK")
-                .accessToken("Bearer " +jwtTokenProvider.createAccessToken(Long.valueOf(userId),role))
-                .refreshToken("Bearer " +refreshToken)
+                .accessToken(jwtTokenProvider.createAccessToken(Long.valueOf(userId),role))
+                .refreshToken(refreshToken)
                 .build();
 
         return reissueTokenResponse;
@@ -93,12 +93,12 @@ public class AuthServiceImpl implements AuthService {
 
         Optional<UserEntity> userLoginData = userRepository.findByEmail(String.valueOf(userInfo.getId()));
 
-        String refreshToken = "Bearer " +jwtTokenProvider.createRereshToken();
+        String refreshToken = jwtTokenProvider.createRereshToken();
 
         TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
                 .message("성공")
                 .code(200)
-                .accessToken("Bearer " +jwtTokenProvider.createAccessToken(
+                .accessToken(jwtTokenProvider.createAccessToken(
                         userLoginData.get().getId(),
                         String.valueOf(userLoginData.get().getUserRole())))
                 .refreshToken(refreshToken)
