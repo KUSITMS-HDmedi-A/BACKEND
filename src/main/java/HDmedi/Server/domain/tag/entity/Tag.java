@@ -1,7 +1,6 @@
 package HDmedi.Server.domain.tag.entity;
 
 import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
-import HDmedi.Server.domain.tag.TagType;
 import HDmedi.Server.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
