@@ -28,4 +28,6 @@ public interface AlarmDateRepository extends JpaRepository<AlarmDate, Long> {
 
     List<LocalDate> findDatesByAlarm(Alarm alarm);
 
+    AlarmDate findAlarmDateByAlarm(Alarm alarm);
+
 }
