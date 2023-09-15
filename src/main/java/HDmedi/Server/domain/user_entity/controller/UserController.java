@@ -1,6 +1,7 @@
 package HDmedi.Server.domain.user_entity.controller;
 
 
+import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
 import HDmedi.Server.domain.user_entity.service.UserService;
 import HDmedi.Server.global.config.security.CustomUser;
@@ -10,9 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,12 +20,12 @@ public class UserController {
     private final UserService userService;
 
     @ApiImplicitParam(
-            name = "refresh",
-            value = "refreshToken",
+            name = "access",
+            value = "accessToken",
             required = true,
             dataType = "string",
             paramType = "header",
-            defaultValue = "Bearer your-refresh-token"
+            defaultValue = "Bearer your-access-token"
     )
     @ApiResponse(code = 200, message = "Success", response = GetUserDetails.class)
     @ApiOperation(value = "유저 상세 정보 조회")
