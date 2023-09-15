@@ -32,7 +32,7 @@ public class UserController {
     @ApiOperation(value = "유저 상세 정보 조회")
     @GetMapping("/details")
     public ResponseEntity<GetUserDetails> getUserDetails(@AuthenticationPrincipal CustomUser customUser) {
-        GetUserDetails response = GetUserDetails userService.getUserDetails(customUser.getUserId())
+        GetUserDetails response = userService.getUserDetails(customUser.getUserId());
         return ResponseEntity.ok(response);
     }
 }
