@@ -48,6 +48,9 @@ jobs:
           cd ./src/main/resources
           touch ./application.yml
           echo "${{ secrets.MAIN_YML }}" > ./application.yml
+          
+          touch ./serviceAccountKey.json
+          echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
         shell: bash
 
       # 빌드(테스트 스킵)
