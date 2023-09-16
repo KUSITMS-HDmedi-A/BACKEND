@@ -40,12 +40,20 @@ public class SchedulerService {
 
         for (Alarm alarm : alarms) {
             List<LocalDate> dates = alarmDateRepository.findDatesByAlarm(alarm);
-            AlarmDate alarmInfo = alarmDateRepository.findAlarmDateByAlarm(alarm);
-            Boolean doseSign = alarmInfo.getDoseSign();
+            List<AlarmDate> alarmInfos = alarmDateRepository.findAlarmDateByAlarm(alarm);
+            LocalTime alarmAtTime = alarm.getTime(); // 알람이 울려야 할 시각
+            Boolean isActivated = alarm.getIsActivated();
             // 해당 알림이 울려야 하는 날짜들 가져오기
-            for (LocalDate date : dates) {
-                if (alarm.getTime().equals(curTime) && date.isEqual(curDate) && alarm.getIsActivated() && !doseSign) {
-                    // 알림이 활성화 상태이고, curDate 가 date 와 같으며, 복약 체크가 false 이면, curTime 이 알람 시간과 같은 경우에만 푸시 알림 전송
+            for (AlarmDate alarmDate : alarmInfos) {
+                LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
+                Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용 여부
+                if (alarmAtDate == curDate && alarmAtTime.equals(curTime) && isActivated && !doseSign) {
+                    /*
+                        1. 알림이 활성화 상태이고
+                        2. curDate 가 date 와 같으며
+                        3. 복약 체크가 false 이면
+                        4. curTime 이 알람 시간과 같은 경우 에만 푸시 알림 전송
+                    */
                     Long childMedicineId = alarm.getChildMedicine().getId();
                     UserChild child = childMedicineRepository.findById(childMedicineId).get().getUserChild();
                     UserEntity user = child.getUserEntity();
@@ -59,7 +67,7 @@ public class SchedulerService {
                     firebaseService.sendNotificationByToken(request);
                 }
                 if (alarm.getEndDate().isBefore(curDate)) {
-                    alarm.inactivateAlarm(); // 알람 비활성화 처리
+                    alarm.inactivateAlarm(); // 알람 비 활성화 처리
                 }
             }
         }
