@@ -20,7 +20,7 @@ public interface AlramRepository extends JpaRepository<Alarm, Long> {
 
 
     List<Alarm> findAllByChildMedicine(ChildMedicine childMedicine);
-    Optional<Alarm> findByChildMedicine(ChildMedicine childMedicine);
+    List<Alarm> findByChildMedicine(ChildMedicine childMedicine);
 
     @Query("SELECT a FROM Alarm a JOIN FETCH a.childMedicine cm JOIN cm.userChild uc JOIN uc.userEntity ue WHERE ue = :userEntity")
     List<Alarm> findAlarmsByUserEntity(@Param("userEntity") UserEntity userEntity);
