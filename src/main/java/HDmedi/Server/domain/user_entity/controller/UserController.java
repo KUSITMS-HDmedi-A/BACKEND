@@ -34,4 +34,21 @@ public class UserController {
         GetUserDetails response = userService.getUserDetails(customUser.getUserId());
         return ResponseEntity.ok(response);
     }
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = GetUserChildDetails.class)
+    @ApiOperation(value = "유저 자식 상세 정보 조회")
+    @GetMapping("/{child-id}/details")
+    public ResponseEntity<GetUserChildDetails> getUserChildDetails(@AuthenticationPrincipal CustomUser customUser,
+                                                                   @PathVariable(name="child-id") Long childId ) {
+        GetUserChildDetails response = userService.getUserChildDetails(childId);
+        return ResponseEntity.ok(response);
+    }
 }

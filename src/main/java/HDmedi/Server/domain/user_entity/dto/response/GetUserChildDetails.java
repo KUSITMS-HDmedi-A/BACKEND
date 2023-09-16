@@ -1,8 +1,10 @@
 package HDmedi.Server.domain.user_entity.dto.response;
 
 import HDmedi.Server.domain.alarm.entity.Alarm;
+import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.domain.user_child.entity.UserChild;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class GetUserChildDetails {
-    List<UserChildDetailInfo> childInfos;
+    UserChildDetailInfo childInfos;
 
-    public static GetUserChildDetails of(List<UserChildDetailInfo> childInfos) {
+    public static GetUserChildDetails of(UserChildDetailInfo childInfos) {
         return new GetUserChildDetails(childInfos);
     }
 
@@ -52,23 +54,54 @@ public class GetUserChildDetails {
     @AllArgsConstructor
     @ToString
     public static class AlarmInfo {
+        Long alarmId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime modifiedDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         LocalDate startDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         LocalDate endDate;
         String label;
         String record;
-        String medicineName;
+        String purpose;
+        Long childMedicineId;
 
-        public static AlarmInfo of(Alarm alarm, MedicineItem medicineItem) {
+        public static AlarmInfo of(Alarm alarm, ChildMedicine childMedicine) {
             return new AlarmInfo(
+                    alarm.getId(),
                     alarm.getCreatedDate(),
                     alarm.getModifiedDate(),
                     alarm.getStartDate(),
                     alarm.getEndDate(),
                     alarm.getLabel(),
                     alarm.getRecord(),
-                    medicineItem.getName());
+                    childMedicine.getPurpose(),
+                    childMedicine.getId()
+            );
+        }
+    }
+
+
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class MedicineDto {
+        Long id;
+        String purpose;
+        String name;
+        String effect;
+
+        public static MedicineDto of(ChildMedicine childMedicine, MedicineItem item) {
+            return new MedicineDto(
+                    childMedicine.getId(),
+                    childMedicine.getPurpose(),
+                    item.getName(),
+                    item.getEffect()
+            );
         }
     }
 }
