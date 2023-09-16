@@ -6,11 +6,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
 
 @Slf4j
 @Component
@@ -18,6 +19,7 @@ public class FirebaseConfig {
 
     @Value("${fcm.account}")
     private String account;
+
     @PostConstruct
     public void init() {
         try {
@@ -30,7 +32,7 @@ public class FirebaseConfig {
 //            } br.close();
 
 
-            if(account.length()==0 || account == null){
+            if (account.length() == 0 || account == null) {
                 System.out.println();
                 System.out.println();
                 System.out.println("문제있음");
@@ -43,10 +45,26 @@ public class FirebaseConfig {
                 System.out.println();
             }
 
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
-            //FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+            //ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
+            FileInputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccountKey.json");
+
+            BufferedReader br = new BufferedReader(new FileReader("./src/main/resources/serviceAccountKey.json"));
+            String t = br.readLine();
+            if (t == null || t.length() == 0) {
+                System.out.println();
+                System.out.println();
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println();
+                System.out.println();
+            }
+
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(byteArrayInputStream))
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
             FirebaseApp.initializeApp(options);
             log.info("firebase application init complete");
