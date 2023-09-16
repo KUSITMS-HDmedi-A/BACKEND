@@ -52,7 +52,7 @@ jobs:
 
       - name: Set serviceAccountKey.json
         run: |
-          mkdir ./src/main/resources
+          mkdir -p ./src/main/resources
           cd ./src/main/resources
           touch ./serviceAccountKey.json
           echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
