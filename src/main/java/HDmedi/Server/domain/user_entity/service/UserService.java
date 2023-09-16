@@ -18,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,12 +59,11 @@ public class UserService {
             alarmsForChild.put(alarm.get(), childMedicine);
         }
 
-        List<GetUserChildDetails.AlarmInfo> alarmInfos = new ArrayList<>();
-        for (Map.Entry<Alarm, ChildMedicine> entry : alarmsForChild.entrySet()) {
-            Alarm alarm = entry.getKey();
-            ChildMedicine childMedicine = entry.getValue();
-            alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm, childMedicine));
-        }
+        List<GetUserChildDetails.AlarmInfo> alarmInfos = alarmsForChild.entrySet()
+                .stream()
+                .map(e ->
+                        GetUserChildDetails.AlarmInfo.of(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
 
         GetUserChildDetails.UserChildDetailInfo userChildDetailInfo
                 = GetUserChildDetails.UserChildDetailInfo.of(userChild, alarmInfos);
