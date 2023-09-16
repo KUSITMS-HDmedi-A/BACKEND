@@ -2,7 +2,7 @@ package HDmedi.Server.domain.user_entity.controller;
 
 
 import HDmedi.Server.domain.user_entity.dto.response.GetFamilyDetails;
-import HDmedi.Server.domain.user_entity.dto.response.GetUserChildAlarms;
+import HDmedi.Server.domain.user_entity.dto.response.GetFamilyInfo;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
 import HDmedi.Server.domain.user_entity.service.UserService;
@@ -66,8 +66,8 @@ public class UserController {
             paramType = "header",
             defaultValue = "Bearer your-access-token"
     )
-    @ApiResponse(code = 200, message = "Success", response = GetUserChildDetails.class)
-    @ApiOperation(value = "구성원 알림 정보 조회")
+    @ApiResponse(code = 200, message = "Success", response = GetFamilyDetails.class)
+    @ApiOperation(value = "구성원 알림 정보 상세 조회")
     @GetMapping("/alarms")
     public ResponseEntity<GetFamilyDetails> getUserChildAlarms(
             @AuthenticationPrincipal CustomUser customUser) {
@@ -75,4 +75,21 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = GetFamilyInfo.class)
+    @ApiOperation(value = "구성원 알림 정보 간단 조회")
+    @GetMapping("/family")
+    public ResponseEntity<GetFamilyInfo> getFamilyInfo(
+            @AuthenticationPrincipal CustomUser customUser) {
+        GetFamilyInfo response = userService.getFamilyInfo(customUser.getUserId());
+        return ResponseEntity.ok(response);
+    }
 }
