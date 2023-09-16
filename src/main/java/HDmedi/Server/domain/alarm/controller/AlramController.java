@@ -3,6 +3,7 @@ package HDmedi.Server.domain.alarm.controller;
 import HDmedi.Server.domain.alarm.dto.request.EnrollRecordRequestDto;
 import HDmedi.Server.domain.alarm.dto.request.MedicineAddRequestDto;
 import HDmedi.Server.domain.alarm.dto.response.MedicineAddPageResponseDto;
+import HDmedi.Server.domain.alarm.dto.response.PatchDoseSignResponse;
 import HDmedi.Server.domain.alarm.service.AlramService;
 import HDmedi.Server.domain.child_medicine.controller.ChildMedicineController;
 import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +47,8 @@ public class AlramController {
     @PostMapping(value = "/dosage-record")
     public ResponseDto enrollRecord(
             @AuthenticationPrincipal CustomUser customUser,
-            @ApiParam(value = "요청 해줘", required = true)  @Validated @RequestBody EnrollRecordRequestDto enrollRecordRequestDto
-    )  {
+            @ApiParam(value = "요청 해줘", required = true) @Validated @RequestBody EnrollRecordRequestDto enrollRecordRequestDto
+    ) {
 
         ResponseDto responseDto = alramService.enrollRecord(customUser.getUserId(), enrollRecordRequestDto);
 
@@ -70,9 +72,9 @@ public class AlramController {
 
     public MedicineAddPageResponseDto medicineAddPage(
             @AuthenticationPrincipal CustomUser customUser
-    )  {
+    ) {
 
-       MedicineAddPageResponseDto medicineAddPageResponseDto = alramService.medicineAddPage(customUser.getUserId());
+        MedicineAddPageResponseDto medicineAddPageResponseDto = alramService.medicineAddPage(customUser.getUserId());
         LOGGER.info("데이터 전송 완료");
 
         return medicineAddPageResponseDto;
@@ -102,5 +104,24 @@ public class AlramController {
         LOGGER.info("알림 추가 완료");
 
         return responseDto;
+    }
+
+
+    @ApiImplicitParam(
+            name = "access",
+            value = "accessToken",
+            required = true,
+            dataType = "string",
+            paramType = "header",
+            defaultValue = "Bearer your-access-token"
+    )
+    @ApiResponse(code = 200, message = "Success", response = ResponseDto.class)
+    @ApiOperation(value = "해당 알람 날짜에 대한 복약 표시 ", notes = "복약 표시 API")
+    @PatchMapping(value = "/dose/{alarm-date-id}")
+    public ResponseEntity<PatchDoseSignResponse> patchDoseSign(
+            @AuthenticationPrincipal CustomUser customUser,
+            @PathVariable(name = "alarm-date-id") Long alarmDateId) {
+        PatchDoseSignResponse response = alramService.patchDoseSign(alarmDateId);
+        return ResponseEntity.ok(response);
     }
 }

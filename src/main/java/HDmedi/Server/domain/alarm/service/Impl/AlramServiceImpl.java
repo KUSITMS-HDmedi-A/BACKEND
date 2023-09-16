@@ -3,6 +3,7 @@ package HDmedi.Server.domain.alarm.service.Impl;
 import HDmedi.Server.domain.alarm.dto.request.EnrollRecordRequestDto;
 import HDmedi.Server.domain.alarm.dto.request.MedicineAddRequestDto;
 import HDmedi.Server.domain.alarm.dto.response.MedicineAddPageResponseDto;
+import HDmedi.Server.domain.alarm.dto.response.PatchDoseSignResponse;
 import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.alarm.service.AlramService;
@@ -15,6 +16,7 @@ import HDmedi.Server.domain.user_child.dto.response.ResponseDto;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_child.repository.UserChildRepository;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
+import HDmedi.Server.global.exception.notfound.NotFoundAlarmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Transactional
@@ -41,9 +40,10 @@ public class AlramServiceImpl implements AlramService {
     AlramRepository alramRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(AlramServiceImpl.class);
+
     @Autowired
-    public AlramServiceImpl(UserChildRepository userChildRepository,   AlarmDateRepository alarmDateRepository,
-                            ChildMedicineRepository childMedicineRepository,AlramRepository alramRepository) {
+    public AlramServiceImpl(UserChildRepository userChildRepository, AlarmDateRepository alarmDateRepository,
+                            ChildMedicineRepository childMedicineRepository, AlramRepository alramRepository) {
         this.userChildRepository = userChildRepository;
         this.alarmDateRepository = alarmDateRepository;
         this.childMedicineRepository = childMedicineRepository;
@@ -59,7 +59,7 @@ public class AlramServiceImpl implements AlramService {
 
         List<UserChild> userChild = userChildRepository.findByUserEntity(userEntity);
 
-        
+
         return null;
     }
 
@@ -73,12 +73,12 @@ public class AlramServiceImpl implements AlramService {
 
         List<MedicineAddPageResponseDto.CharacterDto> characterDtos = new ArrayList<>(userChildList.size());
 
-        for( UserChild userChild : userChildList){
+        for (UserChild userChild : userChildList) {
 
 
             List<MedicineAddPageResponseDto.MedicineDto> medicineDtos = new ArrayList<>(userChildList.size());
 
-            for(ChildMedicine childMedicine : userChild.getChildMedicines()){
+            for (ChildMedicine childMedicine : userChild.getChildMedicines()) {
 
                 MedicineAddPageResponseDto.MedicineDto medicineDto = MedicineAddPageResponseDto.MedicineDto.builder()
                         .purpose(childMedicine.getPurpose()).build();
@@ -87,9 +87,9 @@ public class AlramServiceImpl implements AlramService {
             }
 
             MedicineAddPageResponseDto.CharacterDto characterDto1 = MedicineAddPageResponseDto.CharacterDto.builder()
-                            .characterName(userChild.getName())
-                                    .medicine(medicineDtos)
-                                            .build();
+                    .characterName(userChild.getName())
+                    .medicine(medicineDtos)
+                    .build();
 
             characterDtos.add(characterDto1);
 
@@ -106,13 +106,12 @@ public class AlramServiceImpl implements AlramService {
     }
 
 
-
     @Override
     public ResponseDto medicineAdd(Long userId, MedicineAddRequestDto medicineAddRequestDto) throws ParseException {
 
         UserEntity userEntity = UserEntity.builder().id(userId).build();
 
-        UserChild userChild = userChildRepository.findByNameAndUserEntity(medicineAddRequestDto.getCharacter(),userEntity);
+        UserChild userChild = userChildRepository.findByNameAndUserEntity(medicineAddRequestDto.getCharacter(), userEntity);
 
         ChildMedicine childMedicine = childMedicineRepository.findAllByPurposeAndUserChild(medicineAddRequestDto.getMedicine(), userChild);
 
@@ -137,10 +136,10 @@ public class AlramServiceImpl implements AlramService {
                 startDate,
                 endDate,
                 medicineAddRequestDto.getDay()
-                );
+        );
 
 
-        for(int i = 0; i < dates.size(); i++){
+        for (int i = 0; i < dates.size(); i++) {
 
             AlarmDate alarmDate = AlarmDate.builder()
                     .date(LocalDate.parse(dates.get(i)))
@@ -197,5 +196,12 @@ public class AlramServiceImpl implements AlramService {
             default:
                 throw new IllegalArgumentException("Invalid weekday: " + weekday);
         }
+    }
+    @Override
+    public PatchDoseSignResponse patchDoseSign(Long alarmDateId) {
+        AlarmDate alarmDate = alarmDateRepository.findById(alarmDateId)
+                .orElseThrow(NotFoundAlarmException::new);
+        alarmDate.changeDoseSing(true);
+        return PatchDoseSignResponse.of(alarmDate);
     }
 }
