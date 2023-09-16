@@ -59,8 +59,7 @@ public class UserService {
             Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
             if (alarm.isEmpty()) continue;
             // 해당 약에 대한 알림이 존재 하면
-            AlarmDate alarmDate = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
-            alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm.get(), childMedicine, alarmDate));
+            alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm.get(), childMedicine));
         }
 
         GetUserChildDetails.UserChildDetailInfo userChildDetailInfo

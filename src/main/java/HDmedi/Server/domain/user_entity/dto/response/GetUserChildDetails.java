@@ -68,9 +68,8 @@ public class GetUserChildDetails {
         String record;
         String purpose;
         Long childMedicineId;
-        Boolean doseSign;
 
-        public static AlarmInfo of(Alarm alarm, ChildMedicine childMedicine, AlarmDate alarmDate) {
+        public static AlarmInfo of(Alarm alarm, ChildMedicine childMedicine) {
             return new AlarmInfo(
                     alarm.getId(),
                     alarm.getCreatedDate(),
@@ -80,8 +79,7 @@ public class GetUserChildDetails {
                     alarm.getLabel(),
                     alarm.getRecord(),
                     childMedicine.getPurpose(),
-                    childMedicine.getId(),
-                    alarmDate.getDoseSign()
+                    childMedicine.getId()
             );
         }
     }
