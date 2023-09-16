@@ -7,13 +7,14 @@ import com.google.firebase.FirebaseOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.util.List;
 
 @Slf4j
-@Component
+@Service
 public class FirebaseConfig {
 
     @Value("${fcm.account}")
