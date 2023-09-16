@@ -29,6 +29,20 @@ public class FirebaseConfig {
 //                System.out.println(str);
 //            } br.close();
 
+
+            if(account.length()==0 || account == null){
+                System.out.println();
+                System.out.println();
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println("문제있음");
+                System.out.println();
+                System.out.println();
+            }
+
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
             //FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
