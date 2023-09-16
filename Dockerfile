@@ -16,4 +16,4 @@ COPY ./build.gradle /app/build.gradle
 
 # Java 애플리케이션 빌드 및 실행
 RUN javac -cp /app src/main/java/HDmedi/Server/ServerApplication.java
-CMD ["java", "-cp", "/app", "YourMainClass"]
+CMD ["java", "-cp", "/app", "src/main/java/HDmedi/Server/ServerApplication.java"]
