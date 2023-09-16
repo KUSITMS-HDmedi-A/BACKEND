@@ -52,10 +52,8 @@ jobs:
 
       - name: Set serviceAccountKey.json
         run: |
-          mkdir -p ./src/main/resources
+          mkdir ./src/main/resources
           cd ./src/main/resources
-
-          # serviceAccountKey.json 파일 생성 및 시크릿 값 삽입
           touch ./serviceAccountKey.json
           echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
         shell: bash
