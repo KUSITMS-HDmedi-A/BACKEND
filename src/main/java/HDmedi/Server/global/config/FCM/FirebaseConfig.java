@@ -6,8 +6,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -21,15 +19,11 @@ public class FirebaseConfig {
     @Value("${fcm.account}")
     private String account;
 
-    @Value("${fcm.key.path}")
-    private String FCM_PRIVATE_KEY_PATH;
-
     // 메시징만 권한 설정
     @Value("${fcm.key.scope}")
     private String fireBaseScope;
 
-    //@PostConstruct
-    @Bean
+    @PostConstruct
     public void init() {
         try {
 //            BufferedReader br = new BufferedReader(
@@ -41,7 +35,7 @@ public class FirebaseConfig {
 //            } br.close();
 
             //ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+            FileInputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(
                             GoogleCredentials.fromStream(
