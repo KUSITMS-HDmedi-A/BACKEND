@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FirebaseTokenRequest {
     String token;
-    Long id; // user id
 }

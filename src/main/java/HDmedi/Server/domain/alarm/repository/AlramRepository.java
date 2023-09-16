@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface AlramRepository extends JpaRepository<Alarm, Long> {
     List<Alarm> findByStartDateLessThanEqualAndEndDateGreaterThanEqualAndChildMedicine(Date today1, Date today2, ChildMedicine childMedicine);
@@ -19,6 +20,7 @@ public interface AlramRepository extends JpaRepository<Alarm, Long> {
 
 
     List<Alarm> findAllByChildMedicine(ChildMedicine childMedicine);
+    Optional<Alarm> findByChildMedicine(ChildMedicine childMedicine);
 
     @Query("SELECT a FROM Alarm a JOIN FETCH a.childMedicine cm JOIN cm.userChild uc JOIN uc.userEntity ue WHERE ue = :userEntity")
     List<Alarm> findAlarmsByUserEntity(@Param("userEntity") UserEntity userEntity);

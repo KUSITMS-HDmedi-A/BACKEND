@@ -30,5 +30,7 @@ public class AlarmDate extends BaseTimeEntity {
     @JoinColumn(name = "alarm_id")
     private Alarm alarm;
 
-
+    public void changeDoseSing(boolean status){
+        this.doseSign = status;
+    }
 }

@@ -4,19 +4,20 @@ import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
+import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
+import HDmedi.Server.domain.user_child.entity.UserChild;
+import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
 import HDmedi.Server.fcm.service.FirebaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -28,8 +29,9 @@ public class SchedulerService {
     private final AlarmDateRepository alarmDateRepository;
     private final FirebaseService firebaseService;
     private final UserRepository userRepository;
+    private final ChildMedicineRepository childMedicineRepository;
 
-    @Scheduled(fixedRate = 60000) // 1분에 1번씩
+    @Scheduled(fixedRate = 60000) // 1초에 1번씩
     public void alarmScheduling() {
         LocalDate curDate = LocalDate.now();
         LocalTime curTime = LocalTime.now();
@@ -38,23 +40,34 @@ public class SchedulerService {
 
         for (Alarm alarm : alarms) {
             List<LocalDate> dates = alarmDateRepository.findDatesByAlarm(alarm);
-            AlarmDate alarmInfo = alarmDateRepository.findAlarmDateByAlarm(alarm);
-            Boolean doseSign = alarmInfo.getDoseSign();
+            List<AlarmDate> alarmInfos = alarmDateRepository.findAlarmDateByAlarm(alarm);
+            LocalTime alarmAtTime = alarm.getTime(); // 알람이 울려야 할 시각
+            Boolean isActivated = alarm.getIsActivated();
             // 해당 알림이 울려야 하는 날짜들 가져오기
-            for (LocalDate date : dates) {
-                if (alarm.getTime().equals(curTime) && date.isEqual(curDate) && alarm.getIsActivated() && !doseSign ) {
-                    // 알림이 활성화 상태이고, curDate 가 date 와 같으며, 복약 체크가 false 이면, curTime 이 알람 시간과 같은 경우에만 푸시 알림 전송
-                    Long userId = alarm.getId();
-                    String title = "푸시 알림 타이틀";
-                    String body = "푸시 알림 메세지";
+            for (AlarmDate alarmDate : alarmInfos) {
+                LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
+                Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용 여부
+                if (alarmAtDate == curDate && alarmAtTime.equals(curTime) && isActivated && !doseSign) {
+                    /*
+                        1. 알림이 활성화 상태이고
+                        2. curDate 가 date 와 같으며
+                        3. 복약 체크가 false 이면
+                        4. curTime 이 알람 시간과 같은 경우 에만 푸시 알림 전송
+                    */
+                    Long childMedicineId = alarm.getChildMedicine().getId();
+                    UserChild child = childMedicineRepository.findById(childMedicineId).get().getUserChild();
+                    UserEntity user = child.getUserEntity();
+
+                    String title = "[HDmedi push alarm]";
+                    String body = child.getName() + " 님을 위한 복약 알림입니다.";
                     FCMNotificationRequestDto request = FCMNotificationRequestDto.builder()
-                            .targetUserId(userId)
+                            .targetUserId(user.getId())
                             .title(title)
                             .body(body).build();
                     firebaseService.sendNotificationByToken(request);
                 }
                 if (alarm.getEndDate().isBefore(curDate)) {
-                    alarm.inactivateAlarm(); // 알람 비활성화 처리
+                    alarm.inactivateAlarm(); // 알람 비 활성화 처리
                 }
             }
         }

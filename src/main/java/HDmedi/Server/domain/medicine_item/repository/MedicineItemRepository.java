@@ -16,6 +16,4 @@ public interface MedicineItemRepository extends JpaRepository<MedicineItem, Long
 
     MedicineItem findByName(String name);
 
-
-
 }
