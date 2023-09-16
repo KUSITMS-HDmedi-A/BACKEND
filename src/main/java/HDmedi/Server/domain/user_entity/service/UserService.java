@@ -10,6 +10,7 @@ import HDmedi.Server.domain.medicine_item.repository.MedicineItemRepository;
 import HDmedi.Server.domain.medicines.repository.MedicinesRepository;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_child.repository.UserChildRepository;
+import HDmedi.Server.domain.user_entity.dto.response.GetUserChildAlarms;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
@@ -20,9 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -66,5 +65,29 @@ public class UserService {
                 = GetUserChildDetails.UserChildDetailInfo.of(userChild, alarmInfos);
 
         return GetUserChildDetails.of(userChildDetailInfo);
+    }
+
+    public GetUserChildAlarms getUserChildAlarms(Long childId) {
+//        Long childId;
+//        String name;
+//        List<GetUserChildAlarms.AlarmInfo> alarmInfos;
+//        infos: ChildMedicine medicine, AlarmDate alarmDate, Alarm alarm
+        UserChild userChild = userChildRepository.findById(childId)
+                .orElseThrow(NotFoundMemberException::new);
+        Set<ChildMedicine> medicinesForChild = new HashSet<>(userChild.getChildMedicines());
+        List<GetUserChildAlarms.AlarmInfo> alarmInfos = new ArrayList<>();
+        Set<Long> alarmSet = new HashSet<>();
+        for (ChildMedicine childMedicine : medicinesForChild) {
+            Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
+            if (alarm.isEmpty()) continue;
+            List<AlarmDate> alarmDates = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
+            // 해당 알람에 대한 세부 정보 리스트
+            for (AlarmDate date : alarmDates) {
+                if (alarmSet.contains(alarm.get().getId())) continue;
+                alarmSet.add(alarm.get().getId());
+                alarmInfos.add(GetUserChildAlarms.AlarmInfo.of(childMedicine, date, alarm.get()));
+            }
+        }
+        return GetUserChildAlarms.of(userChild, alarmInfos);
     }
 }
