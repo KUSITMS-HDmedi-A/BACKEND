@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir -p ./src/main/resources
           touch ./src/main/resources/serviceAccountKey.json
-          echo "${{ secrets.ACCOUNT_KEY }}" > ./src/main/resources/serviceAccountKey.json
+          echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
         shell: bash
 
       # 빌드(테스트 스킵)
