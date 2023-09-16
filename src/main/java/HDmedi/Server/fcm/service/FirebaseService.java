@@ -1,5 +1,6 @@
 package HDmedi.Server.fcm.service;
 
+import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
@@ -10,6 +11,9 @@ import HDmedi.Server.global.exception.notfound.NotFoundMemberException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,9 +54,11 @@ public class FirebaseService {
         }
     }
 
+
     @Transactional
-    public FirebaseTokenResponse patchToken(FirebaseTokenRequest request) {
-        UserEntity user = userRepository.findById(request.getId()).orElseThrow(NotFoundMemberException::new);
+    public FirebaseTokenResponse patchToken(FirebaseTokenRequest request, Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(NotFoundMemberException::new);
         String token = request.getToken();
         user.setFirebaseToken(token);
         return FirebaseTokenResponse.of(user.getId());
