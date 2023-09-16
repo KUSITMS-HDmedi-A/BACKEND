@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class FirebaseConfig {
 
-
+/*
     @PostConstruct
     public void init() {
         try {
@@ -35,4 +35,6 @@ public class FirebaseConfig {
             throw new FirebaseConfigException();
         }
     }
+
+ */
 }

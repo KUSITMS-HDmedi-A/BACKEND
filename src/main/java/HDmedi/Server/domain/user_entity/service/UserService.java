@@ -10,10 +10,7 @@ import HDmedi.Server.domain.medicine_item.repository.MedicineItemRepository;
 import HDmedi.Server.domain.medicines.repository.MedicinesRepository;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_child.repository.UserChildRepository;
-import HDmedi.Server.domain.user_entity.dto.response.GetFamilyDetails;
-import HDmedi.Server.domain.user_entity.dto.response.GetUserChildAlarms;
-import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
-import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
+import HDmedi.Server.domain.user_entity.dto.response.*;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.global.exception.notfound.NotFoundMemberException;
@@ -101,5 +98,24 @@ public class UserService {
             familyDetails.add(childAlarmsDetail);
         }
         return GetFamilyDetails.of(familyDetails, user);
+    }
+
+    public GetFamilyInfo getFamilyInfo(Long userId) {
+        UserEntity user = userRepository.findById(userId) // 유저 정보 가져와서
+                .orElseThrow(NotFoundMemberException::new);
+        List<UserChild> userChildList = user.getUserChildEntities(); // 해당 유저의 구성원들 정보를 가져오고
+        List<GetFamilyInfo.ChildInfo> childInfos = new ArrayList<>();
+        for (UserChild userChild : userChildList) {
+            // 구성원들이 복용하고 있는 약 정보를 가져와서
+            List<ChildMedicine> childMedicines = childMedicineRepository.findByUserChild(userChild);
+            List<GetFamilyInfo.DoseInfo> doseInfos = new ArrayList<>();
+            for (ChildMedicine childMedicine : childMedicines) {
+                doseInfos.add(GetFamilyInfo.DoseInfo.of(childMedicine));
+            }
+            childInfos.add(
+                    GetFamilyInfo.ChildInfo.of(userChild, doseInfos)
+            );
+        }
+        return GetFamilyInfo.of(user, childInfos);
     }
 }
