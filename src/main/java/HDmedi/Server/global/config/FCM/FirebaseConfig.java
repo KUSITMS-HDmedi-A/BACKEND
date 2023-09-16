@@ -24,6 +24,7 @@ public class FirebaseConfig {
             FirebaseApp.initializeApp(options);
             log.info("firebase application init complete");
         } catch (Exception e) {
+            log.warn("[ 오류 ] firebase application init failed!!");
             throw new FirebaseConfigException();
         }
     }
