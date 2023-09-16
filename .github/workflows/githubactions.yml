@@ -45,20 +45,17 @@ jobs:
         run: |
           # main 설정 파일 디렉토리로 이동
           mkdir ./src/main/resources
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.MAIN_YML }}" > ./application.yml
-          
-        # serviceAccountKey.json 파일 생성 및 write
+          touch ./src/main/resources/application.yml
+          echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
+        shell: bash
+
       - name: Set serviceAccountKey.json
         run: |
-        # serviceAccountKey.json 파일이 저장될 디렉토리로 이동
-          mkdir -p ./src/main/resources
-          cd ./src/main/resources
-
-          # serviceAccountKey.json 파일 생성 및 시크릿 값 삽입
-          echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
-
+          # main 파이어 베이스 파일 디렉토리 이동
+          sudo -i
+       
+          touch ./src/main/resources/serviceAccountKey.json
+          echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
         shell: bash
 
       # 빌드(테스트 스킵)
