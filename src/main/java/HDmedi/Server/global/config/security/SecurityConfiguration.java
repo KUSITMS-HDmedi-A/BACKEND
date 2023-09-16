@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/api/user/auth/reissue-token",
                         "/api/user/auth/kakao-login",
-                        "/api/user/auth/logout"
+                        "/api/user/auth/logout";
                 );
     }
 }
