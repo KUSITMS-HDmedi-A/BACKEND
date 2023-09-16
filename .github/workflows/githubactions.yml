@@ -51,7 +51,8 @@ jobs:
 
       - name: Set serviceAccountKey.json
         run: |
-          mkdir -p ./src/main/resources
+          # main 파이어 베이스 파일 디렉토리 이동
+          mkdir  ./src/main/resources
           touch ./src/main/resources/serviceAccountKey.json
           echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
         shell: bash

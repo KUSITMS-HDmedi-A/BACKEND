@@ -181,6 +181,8 @@ LOGGER.info(String.valueOf(userChild.getId()));
         Map<String, DoseRecordResponseDto.DoseCharacterDto> characterMap = new HashMap<>();
 
         for (AlarmDate alarmDate : alarmDateList) {
+
+            LOGGER.info(String.valueOf(alarmDate.getAlarm()));
             Alarm alarm = alarmDate.getAlarm();
             ChildMedicine childMedicine = alarm.getChildMedicine();
             UserChild userChild = childMedicine.getUserChild();
@@ -191,6 +193,8 @@ LOGGER.info(String.valueOf(userChild.getId()));
                             .name(name)
                             .doseAlarmList(new ArrayList<>())
                             .build());
+
+            LOGGER.info(String.valueOf(alarm.getTime()));
 
 
             DoseRecordResponseDto.DoseAlarmDto alarmDto = DoseRecordResponseDto.DoseAlarmDto.builder()
