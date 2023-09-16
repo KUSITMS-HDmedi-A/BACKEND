@@ -48,14 +48,8 @@ jobs:
           cd ./src/main/resources
           touch ./application.yml
           echo "${{ secrets.MAIN_YML }}" > ./application.yml
-        shell: bash
-
-      - name: Set serviceAccountKey.json
-        run: |
-          mkdir -p ./src/main/resources
-          cd ./src/main/resources
           touch ./serviceAccountKey.json
-          echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
+          echo "${{ secrets.ACCOUNT_KEY }}" > ./src/main/resources/serviceAccountKey.json
         shell: bash
 
       # 빌드(테스트 스킵)
