@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.util.List;
 
@@ -34,12 +35,12 @@ public class FirebaseConfig {
 //                System.out.println(str);
 //            } br.close();
 
-            //ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
-            FileInputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccountKey.json");
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
+            //FileInputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(
                             GoogleCredentials.fromStream(
-                                    serviceAccount
+                                    byteArrayInputStream
                             ).createScoped(List.of(fireBaseScope)))
                     .build();
             FirebaseApp.initializeApp(options);
