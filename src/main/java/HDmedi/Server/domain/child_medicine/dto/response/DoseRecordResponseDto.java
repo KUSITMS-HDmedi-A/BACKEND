@@ -25,6 +25,7 @@ public class DoseRecordResponseDto extends ResponseDto {
     @Setter
     @Builder
     public static class DoseCharacterDto{
+        String alarmCount;
         String name;
         List<DoseAlarmDto> doseAlarmList;
     }
@@ -35,7 +36,7 @@ public class DoseRecordResponseDto extends ResponseDto {
     @Setter
     @Builder
     public static class DoseAlarmDto{
-        LocalTime time;
+        String time;
         int count;
         boolean doseSign;
         String label;

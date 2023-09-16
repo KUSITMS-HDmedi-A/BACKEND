@@ -182,7 +182,7 @@ LOGGER.info(String.valueOf(userChild.getId()));
 
         for (AlarmDate alarmDate : alarmDateList) {
 
-            LOGGER.info(String.valueOf(alarmDate.getAlarm()));
+
             Alarm alarm = alarmDate.getAlarm();
             ChildMedicine childMedicine = alarm.getChildMedicine();
             UserChild userChild = childMedicine.getUserChild();
@@ -194,11 +194,8 @@ LOGGER.info(String.valueOf(userChild.getId()));
                             .doseAlarmList(new ArrayList<>())
                             .build());
 
-            LOGGER.info(String.valueOf(alarm.getTime()));
-
-
             DoseRecordResponseDto.DoseAlarmDto alarmDto = DoseRecordResponseDto.DoseAlarmDto.builder()
-                    .time(alarm.getTime())
+                    .time(String.valueOf(alarm.getTime()))
                     .count(childMedicine.getMedicines().size())
                     .doseSign(alarmDate.getDoseSign())
                     .label(alarm.getLabel())
