@@ -198,14 +198,4 @@ public class AlramServiceImpl implements AlramService {
                 throw new IllegalArgumentException("Invalid weekday: " + weekday);
         }
     }
-
-
-
-
-
-
-
-
-
-
 }
