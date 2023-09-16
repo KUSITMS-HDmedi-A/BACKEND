@@ -74,6 +74,14 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
+            
+            docker stop hdmedia
+            docker rm hemedia
+            docker rmi leeseungryeol/hdmedia:1.0 
+            
+            docker stop redis
+            docker rm redis
+            docker rmi redis
    
             docker pull leeseungryeol/hdmedia:1.0
             cd /
