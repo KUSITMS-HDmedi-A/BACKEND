@@ -49,8 +49,16 @@ jobs:
           touch ./application.yml
           echo "${{ secrets.MAIN_YML }}" > ./application.yml
           
-          touch ./serviceAccountKey.json
+        # serviceAccountKey.json 파일 생성 및 write
+      - name: Set serviceAccountKey.json
+        run: |
+        # serviceAccountKey.json 파일이 저장될 디렉토리로 이동
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+
+          # serviceAccountKey.json 파일 생성 및 시크릿 값 삽입
           echo "${{ secrets.ACCOUNT_KEY }}" > ./serviceAccountKey.json
+
         shell: bash
 
       # 빌드(테스트 스킵)
