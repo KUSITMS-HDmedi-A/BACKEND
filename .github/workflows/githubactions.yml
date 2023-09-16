@@ -45,10 +45,14 @@ jobs:
         run: |
           # main 설정 파일 디렉토리로 이동
           mkdir ./src/main/resources
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.MAIN_YML }}" > ./application.yml
-          touch ./serviceAccountKey.json
+          touch ./src/main/resources/application.yml
+          echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
+        shell: bash
+
+      - name: Set serviceAccountKey.json
+        run: |
+          mkdir -p ./src/main/resources
+          touch ./src/main/resources/serviceAccountKey.json
           echo "${{ secrets.ACCOUNT_KEY }}" > ./src/main/resources/serviceAccountKey.json
         shell: bash
 
