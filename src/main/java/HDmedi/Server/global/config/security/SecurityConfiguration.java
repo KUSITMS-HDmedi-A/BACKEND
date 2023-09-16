@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/users/details",
                         "/api/users/{child-id}/details",
                         "/api/alarm/dose/",
-                        "/api/users/{child-id}/alarms"
+                        "/api/users/alarms"
                 ).authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

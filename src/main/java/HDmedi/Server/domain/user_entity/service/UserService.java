@@ -10,6 +10,7 @@ import HDmedi.Server.domain.medicine_item.repository.MedicineItemRepository;
 import HDmedi.Server.domain.medicines.repository.MedicinesRepository;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_child.repository.UserChildRepository;
+import HDmedi.Server.domain.user_entity.dto.response.GetFamilyDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildAlarms;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
@@ -67,27 +68,33 @@ public class UserService {
         return GetUserChildDetails.of(userChildDetailInfo);
     }
 
-    public GetUserChildAlarms getUserChildAlarms(Long childId) {
+    public GetFamilyDetails getUserChildAlarms(Long userId) {
 //        Long childId;
 //        String name;
 //        List<GetUserChildAlarms.AlarmInfo> alarmInfos;
 //        infos: ChildMedicine medicine, AlarmDate alarmDate, Alarm alarm
-        UserChild userChild = userChildRepository.findById(childId)
+        UserEntity user = userRepository.findById(userId)
                 .orElseThrow(NotFoundMemberException::new);
-        Set<ChildMedicine> medicinesForChild = new HashSet<>(userChild.getChildMedicines());
-        List<GetUserChildAlarms.AlarmInfo> alarmInfos = new ArrayList<>();
-        Set<Long> alarmSet = new HashSet<>();
-        for (ChildMedicine childMedicine : medicinesForChild) {
-            Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
-            if (alarm.isEmpty()) continue;
-            List<AlarmDate> alarmDates = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
-            // 해당 알람에 대한 세부 정보 리스트
-            for (AlarmDate date : alarmDates) {
-                if (alarmSet.contains(alarm.get().getId())) continue;
-                alarmSet.add(alarm.get().getId());
-                alarmInfos.add(GetUserChildAlarms.AlarmInfo.of(childMedicine, date, alarm.get()));
+        List<UserChild> userChildList = user.getUserChildEntities();
+        List<GetUserChildAlarms> familyDetails = new ArrayList<>();
+        for (UserChild userChild : userChildList) {
+            Set<ChildMedicine> medicinesForChild = new HashSet<>(userChild.getChildMedicines());
+            List<GetUserChildAlarms.AlarmInfo> alarmInfos = new ArrayList<>();
+            Set<Long> alarmSet = new HashSet<>();
+            for (ChildMedicine childMedicine : medicinesForChild) {
+                Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
+                if (alarm.isEmpty()) continue;
+                List<AlarmDate> alarmDates = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
+                // 해당 알람에 대한 세부 정보 리스트
+                for (AlarmDate date : alarmDates) {
+                    if (alarmSet.contains(alarm.get().getId())) continue;
+                    alarmSet.add(alarm.get().getId());
+                    alarmInfos.add(GetUserChildAlarms.AlarmInfo.of(childMedicine, date, alarm.get()));
+                }
             }
+            GetUserChildAlarms childAlarmsDetail = GetUserChildAlarms.of(userChild, alarmInfos);
+            familyDetails.add(childAlarmsDetail);
         }
-        return GetUserChildAlarms.of(userChild, alarmInfos);
+        return GetFamilyDetails.of(familyDetails, user);
     }
 }

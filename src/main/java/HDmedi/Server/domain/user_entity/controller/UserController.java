@@ -1,6 +1,7 @@
 package HDmedi.Server.domain.user_entity.controller;
 
 
+import HDmedi.Server.domain.user_entity.dto.response.GetFamilyDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildAlarms;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserChildDetails;
 import HDmedi.Server.domain.user_entity.dto.response.GetUserDetails;
@@ -66,12 +67,11 @@ public class UserController {
             defaultValue = "Bearer your-access-token"
     )
     @ApiResponse(code = 200, message = "Success", response = GetUserChildDetails.class)
-    @ApiOperation(value = "유저 자식 알림 정보 조회")
-    @GetMapping("/{child-id}/alarms")
-    public ResponseEntity<GetUserChildAlarms> getUserChildAlarms(
-            @AuthenticationPrincipal CustomUser customUser,
-            @PathVariable(name = "child-id") Long childId) {
-        GetUserChildAlarms response = userService.getUserChildAlarms(childId);
+    @ApiOperation(value = "구성원 알림 정보 조회")
+    @GetMapping("/alarms")
+    public ResponseEntity<GetFamilyDetails> getUserChildAlarms(
+            @AuthenticationPrincipal CustomUser customUser) {
+        GetFamilyDetails response = userService.getUserChildAlarms(customUser.getUserId());
         return ResponseEntity.ok(response);
     }
 
