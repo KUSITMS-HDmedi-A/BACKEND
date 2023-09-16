@@ -29,10 +29,10 @@ public class FirebaseConfig {
 //                System.out.println(str);
 //            } br.close();
 
-            //ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(account.getBytes());
+            //FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setCredentials(GoogleCredentials.fromStream(byteArrayInputStream))
                     .build();
             FirebaseApp.initializeApp(options);
             log.info("firebase application init complete");
