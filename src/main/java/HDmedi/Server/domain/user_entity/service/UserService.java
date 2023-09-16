@@ -22,7 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,10 +59,11 @@ public class UserService {
         List<GetUserChildDetails.AlarmInfo> alarmInfos = new ArrayList<>();
 
         for (ChildMedicine childMedicine : medicinesForChild) {
-            Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
-            if (alarm.isEmpty()) continue;
-            // 해당 약에 대한 알림이 존재 하면
-            alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm.get(), childMedicine));
+            List<Alarm> alarms = alramRepository.findByChildMedicine(childMedicine);
+            for (Alarm alarm : alarms) {
+                // 해당 약에 대한 알림이 존재 하면
+                alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm, childMedicine));
+            }
         }
 
         GetUserChildDetails.UserChildDetailInfo userChildDetailInfo
@@ -82,14 +86,15 @@ public class UserService {
             List<GetUserChildAlarms.AlarmInfo> alarmInfos = new ArrayList<>();
             Set<Long> alarmSet = new HashSet<>();
             for (ChildMedicine childMedicine : medicinesForChild) {
-                Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
-                if (alarm.isEmpty()) continue;
-                List<AlarmDate> alarmDates = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
-                // 해당 알람에 대한 세부 정보 리스트
-                for (AlarmDate date : alarmDates) {
-                    if (alarmSet.contains(alarm.get().getId())) continue;
-                    alarmSet.add(alarm.get().getId());
-                    alarmInfos.add(GetUserChildAlarms.AlarmInfo.of(childMedicine, date, alarm.get()));
+                List<Alarm> alarms = alramRepository.findByChildMedicine(childMedicine);
+                for (Alarm alarm : alarms) {
+                    List<AlarmDate> alarmDates = alarmDateRepository.findAlarmDateByAlarm(alarm);
+                    // 해당 알람에 대한 세부 정보 리스트
+                    for (AlarmDate date : alarmDates) {
+                        if (alarmSet.contains(alarm.getId())) continue;
+                        alarmSet.add(alarm.getId());
+                        alarmInfos.add(GetUserChildAlarms.AlarmInfo.of(childMedicine, date, alarm));
+                    }
                 }
             }
             GetUserChildAlarms childAlarmsDetail = GetUserChildAlarms.of(userChild, alarmInfos);
