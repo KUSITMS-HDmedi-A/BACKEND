@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 @Service
 public class FirebaseConfig {
 
-
     @PostConstruct
     public void init() {
         try {
