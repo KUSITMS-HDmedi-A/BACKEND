@@ -15,6 +15,5 @@ public interface MedicineItemRepository extends JpaRepository<MedicineItem, Long
    Optional<MedicineItem> findById(Long id);
 
     MedicineItem findByName(String name);
-    Optional<MedicineItem> findByChildMedicine(ChildMedicine childMedicine);
 
 }

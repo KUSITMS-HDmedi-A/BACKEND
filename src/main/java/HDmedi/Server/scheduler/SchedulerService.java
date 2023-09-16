@@ -4,7 +4,6 @@ import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.alarm.repository.AlramRepository;
 import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
-import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
 import HDmedi.Server.domain.user_child.entity.UserChild;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
@@ -13,14 +12,12 @@ import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
 import HDmedi.Server.fcm.service.FirebaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
