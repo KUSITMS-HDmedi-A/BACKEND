@@ -1,6 +1,7 @@
 package HDmedi.Server.domain.user_entity.dto.response;
 
 import HDmedi.Server.domain.alarm.entity.Alarm;
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.medicine_item.entity.MedicineItem;
 import HDmedi.Server.domain.user_child.entity.UserChild;
@@ -67,8 +68,9 @@ public class GetUserChildDetails {
         String record;
         String purpose;
         Long childMedicineId;
+        Boolean doseSign;
 
-        public static AlarmInfo of(Alarm alarm, ChildMedicine childMedicine) {
+        public static AlarmInfo of(Alarm alarm, ChildMedicine childMedicine, AlarmDate alarmDate) {
             return new AlarmInfo(
                     alarm.getId(),
                     alarm.getCreatedDate(),
@@ -78,7 +80,8 @@ public class GetUserChildDetails {
                     alarm.getLabel(),
                     alarm.getRecord(),
                     childMedicine.getPurpose(),
-                    childMedicine.getId()
+                    childMedicine.getId(),
+                    alarmDate.getDoseSign()
             );
         }
     }

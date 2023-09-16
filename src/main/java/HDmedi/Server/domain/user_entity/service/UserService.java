@@ -2,6 +2,8 @@ package HDmedi.Server.domain.user_entity.service;
 
 import HDmedi.Server.domain.alarm.entity.Alarm;
 import HDmedi.Server.domain.alarm.repository.AlramRepository;
+import HDmedi.Server.domain.alarm_date.entity.AlarmDate;
+import HDmedi.Server.domain.alarm_date.repository.AlarmDateRepository;
 import HDmedi.Server.domain.child_medicine.entity.ChildMedicine;
 import HDmedi.Server.domain.child_medicine.repository.ChildMedicineRepository;
 import HDmedi.Server.domain.medicine_item.repository.MedicineItemRepository;
@@ -18,7 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +33,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserChildRepository userChildRepository;
     private final AlramRepository alramRepository;
+    private final AlarmDateRepository alarmDateRepository;
     private final ChildMedicineRepository childMedicineRepository;
     private final MedicinesRepository medicinesRepository;
     private final MedicineItemRepository medicineItemRepository;
@@ -48,19 +53,15 @@ public class UserService {
                 .orElseThrow(NotFoundMemberException::new);
         // 해당 자식 유저가 복용 중인 약
         List<ChildMedicine> medicinesForChild = childMedicineRepository.findByUserChild(userChild);
-        Map<Alarm, ChildMedicine> alarmsForChild = new HashMap<>();
+        List<GetUserChildDetails.AlarmInfo> alarmInfos = new ArrayList<>();
+
         for (ChildMedicine childMedicine : medicinesForChild) {
             Optional<Alarm> alarm = alramRepository.findByChildMedicine(childMedicine);
             if (alarm.isEmpty()) continue;
             // 해당 약에 대한 알림이 존재 하면
-            alarmsForChild.put(alarm.get(), childMedicine);
+            AlarmDate alarmDate = alarmDateRepository.findAlarmDateByAlarm(alarm.get());
+            alarmInfos.add(GetUserChildDetails.AlarmInfo.of(alarm.get(), childMedicine, alarmDate));
         }
-
-        List<GetUserChildDetails.AlarmInfo> alarmInfos = alarmsForChild.entrySet()
-                .stream()
-                .map(e ->
-                        GetUserChildDetails.AlarmInfo.of(e.getKey(), e.getValue()))
-                .collect(Collectors.toList());
 
         GetUserChildDetails.UserChildDetailInfo userChildDetailInfo
                 = GetUserChildDetails.UserChildDetailInfo.of(userChild, alarmInfos);
