@@ -40,11 +40,11 @@ jobs:
         run: chmod +x gradlew
 
       # main 설정 파일 생성 및 write
-      - name: Create serviceAccountKey.json
-        run:  |
-           mkdir ./src/main/resources
-           echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
-        shell: bash
+#      - name: Create serviceAccountKey.json
+#        run:  |
+#           mkdir ./src/main/resources
+#           echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
+#        shell: bash
 
 
 
