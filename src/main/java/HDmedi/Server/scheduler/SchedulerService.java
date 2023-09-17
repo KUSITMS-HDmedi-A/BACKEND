@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,7 +56,7 @@ public class SchedulerService {
                     log.info("[ 알람 날짜와 현재 날짜가 일치하지 않으므로 알람을 울리지 않습니다.  ]");
                     continue;
                 }
-                if (!alarmAtTime.equals(curTime)) {
+                if (!Objects.equals(alarmAtTime.getMinute(), curTime.getMinute())) {
                     log.info("[ 알람이 울리는 시간과 현재 시간이 일치하지 않으므로 알람을 울리지 않습니다. ]");
                     continue;
                 }
@@ -79,6 +80,9 @@ public class SchedulerService {
 
                 String title = "[HDmedi push alarm]";
                 String body = child.getName() + " 님을 위한 복약 알림입니다.";
+
+                log.info(title + "\n" + body);
+
                 FCMNotificationRequestDto request = FCMNotificationRequestDto.builder()
                         .title(title)
                         .body(body).build();
