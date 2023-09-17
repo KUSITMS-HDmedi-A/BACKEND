@@ -41,13 +41,14 @@ jobs:
 
       # main 설정 파일 생성 및 write
       - name: Create serviceAccountKey.json
-        run: echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
+        run:  |
+           mkdir ./src/main/resources
+           echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
 
 
       - name: Set .yml for main
         run: |
           # main 설정 파일 디렉토리로 이동
-          mkdir ./src/main/resources
           touch ./src/main/resources/application.yml
           echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
         shell: bash
