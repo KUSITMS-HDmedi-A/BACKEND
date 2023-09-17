@@ -1,5 +1,6 @@
 package HDmedi.Server.fcm.service;
 
+import HDmedi.Server.domain.child_medicine.controller.ChildMedicineController;
 import HDmedi.Server.domain.user_entity.entity.UserEntity;
 import HDmedi.Server.domain.user_entity.repository.UserRepository;
 import HDmedi.Server.fcm.dto.FCMNotificationRequestDto;
@@ -12,6 +13,8 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,7 @@ public class FirebaseService {
 
     private final UserRepository userRepository;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(ChildMedicineController.class);
     @Transactional(readOnly = true)
     public void sendNotificationByToken(FCMNotificationRequestDto request, Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(NotFoundMemberException::new);
@@ -35,6 +39,7 @@ public class FirebaseService {
                     .setTitle(request.getTitle())
                     .setBody(request.getBody())
                     .build();
+
             Message message = Message.builder()
                     .setToken(user.getFirebaseToken())
                     .setNotification(notification)
