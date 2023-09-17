@@ -20,30 +20,52 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import org.springframework.core.io.ClassPathResource;
+
+import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 @Slf4j
 @Service
 public class FirebaseConfig {
+
     @PostConstruct
     public void initialize() throws IOException {
+        // serviceAccountKey.json 파일을 ClassPath에서 읽어옴
         ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
 
-        try (InputStream is = resource.getInputStream()) {
+        try {
             // InputStream에서 데이터를 읽음
-            byte[] jsonData = IOUtils.toByteArray(is);
+            byte[] jsonData = IOUtils.toByteArray(resource.getInputStream());
 
-            // 읽은 데이터로 GoogleCredentials 생성
+            // JSON 파서 생성 및 Lenient 모드 설정
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(jsonData)));
+            jsonReader.setLenient(true);
+
+            // GoogleCredentials 생성
             GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(jsonData));
-
 
             // FirebaseOptions 빌더를 사용하여 FirebaseOptions 생성
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(credentials)
                     .build();
 
+            // FirebaseApp이 초기화되지 않았을 때만 초기화
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("FirebaseApp initialization complete");
             }
+        } catch (IOException e) {
+            log.error("Error initializing FirebaseApp", e);
         }
     }
 }
