@@ -11,15 +11,17 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @Slf4j
 @Service
 public class FirebaseConfig {
 
     @PostConstruct
-    public void init() {
-        try {
-            FileInputStream resource = new FileInputStream("/app/src/main/resources/serviceAccountKey.json");
+    public void init() throws IOException {
+ //       try {
+            FileInputStream resource = new FileInputStream("./src/main/resources/serviceAccountKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(
                             GoogleCredentials.fromStream(
@@ -28,9 +30,9 @@ public class FirebaseConfig {
                     .build();
             FirebaseApp.initializeApp(options);
             log.info("firebase application init complete");
-        } catch (Exception e) {
+    //    } catch (Exception e) {
             log.warn("[ 오류 ] firebase application init failed!!");
-            throw new FirebaseConfigException();
-        }
+   //         throw new FirebaseConfigException();
+     //   }
     }
 }
