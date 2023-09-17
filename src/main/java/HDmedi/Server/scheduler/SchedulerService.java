@@ -40,6 +40,7 @@ public class SchedulerService {
         List<Alarm> alarms = alramRepository.findAllByStartDateLessThanAndIsActivatedIsTrue(curDate);
 
         for (Alarm alarm : alarms) {
+            log.info("1. 알림 리스트를 조회합니다.");
             List<AlarmDate> alarmDates = alarmDateRepository.findByAlarm(alarm);
             List<LocalDate> dates = alarmDates.stream()
                     .map(AlarmDate::getDate).collect(Collectors.toList());
@@ -48,29 +49,45 @@ public class SchedulerService {
             Boolean isActivated = alarm.getIsActivated();
             // 해당 알림이 울려야 하는 날짜들 가져오기
             for (AlarmDate alarmDate : alarmInfos) {
+                log.info("2. 해당 알림이 발생해야 하는 날짜 리스트를 조회합니다.");
                 LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
-                Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용 여부
-                if (alarmAtDate == curDate && alarmAtTime.equals(curTime) && isActivated && !doseSign) {
+                Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용
+                if (alarmAtDate != curDate) {
+                    log.info("[ 알람 날짜와 현재 날짜가 일치하지 않으므로 알람을 울리지 않습니다.  ]");
+                    continue;
+                }
+                if (!alarmAtTime.equals(curTime)) {
+                    log.info("[ 알람이 울리는 시간과 현재 시간이 일치하지 않으므로 알람을 울리지 않습니다. ]");
+                    continue;
+                }
+                if (!isActivated) {
+                    log.info("[ 알림이 비활성화 상태이므로 알림을 울리지 않습니다. ]");
+                    continue;
+                }
+                if (doseSign) {
+                    log.info("[해당 알림 날짜에 대한 doseSing 이 true 이므로 알림을 울리지 않습니다. ]");
+                    continue;
+                }
                     /*
                         1. 알림이 활성화 상태이고
                         2. curDate 가 date 와 같으며
                         3. 복약 체크가 false 이면
                         4. curTime 이 알람 시간과 같은 경우 에만 푸시 알림 전송
                     */
-                    Long childMedicineId = alarm.getChildMedicine().getId();
-                    UserChild child = childMedicineRepository.findById(childMedicineId).get().getUserChild();
-                    UserEntity user = child.getUserEntity();
+                Long childMedicineId = alarm.getChildMedicine().getId();
+                UserChild child = childMedicineRepository.findById(childMedicineId).get().getUserChild();
+                UserEntity user = child.getUserEntity();
 
-                    String title = "[HDmedi push alarm]";
-                    String body = child.getName() + " 님을 위한 복약 알림입니다.";
-                    FCMNotificationRequestDto request = FCMNotificationRequestDto.builder()
-                            .title(title)
-                            .body(body).build();
-                    firebaseService.sendNotificationByToken(request, user.getId());
-                }
-                if (alarm.getEndDate().isBefore(curDate)) {
-                    alarm.inactivateAlarm(); // 알람 비 활성화 처리
-                }
+                String title = "[HDmedi push alarm]";
+                String body = child.getName() + " 님을 위한 복약 알림입니다.";
+                FCMNotificationRequestDto request = FCMNotificationRequestDto.builder()
+                        .title(title)
+                        .body(body).build();
+                firebaseService.sendNotificationByToken(request, user.getId());
+            }
+            if (alarm.getEndDate().isBefore(curDate)) {
+                log.info("알람의 종료 날짜가 현재 날짜보다 이전일이므로 비활성화 처리합니다.");
+                alarm.inactivateAlarm(); // 알람 비 활성화 처리
             }
         }
     }
