@@ -123,6 +123,7 @@ public class AlramServiceImpl implements AlramService {
                 .endDate(medicineAddRequestDto.getEndDate())
                 .childMedicine(childMedicine)
                 .time(medicineAddRequestDto.getTime())
+                .isActivated(true)
                 .build();
         alramRepository.save(alarm);
 
