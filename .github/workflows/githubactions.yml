@@ -40,6 +40,10 @@ jobs:
         run: chmod +x gradlew
 
       # main 설정 파일 생성 및 write
+      - name: Create serviceAccountKey.json
+        run: echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
+
+
       - name: Set .yml for main
         run: |
           # main 설정 파일 디렉토리로 이동
@@ -48,12 +52,7 @@ jobs:
           echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
         shell: bash
 
-      - name: Set serviceAccountKey.json
-        run: |
-          # main 파이어 베이스 파일 디렉토리 이동
-          touch ./src/main/resources/serviceAccountKey.json
-          echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
-        shell: bash
+
 
       # 빌드(테스트 스킵)
       - name: Build with Gradle
