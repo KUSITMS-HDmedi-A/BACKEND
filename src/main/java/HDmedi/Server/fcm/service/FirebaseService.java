@@ -43,6 +43,8 @@ public class FirebaseService {
                 FirebaseMessaging.getInstance().send(message);
                 log.info("\"알림을 성공적으로 전송했습니다. targetUserId = \" + request.getTargetUserId()");
             } catch (Exception e) {
+                log.info("알림을 전송하는 데에 실패하였습니다.");
+                e.printStackTrace();
                 throw new FirebaseTokenException();
             }
         } else {

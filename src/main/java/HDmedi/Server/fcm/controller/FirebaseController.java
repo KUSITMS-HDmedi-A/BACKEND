@@ -10,12 +10,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/notification")
@@ -36,6 +38,7 @@ public class FirebaseController {
     public ResponseEntity<FCMNotificationResponseDto> sendNotification(
             @AuthenticationPrincipal CustomUser customUser,
             @RequestBody FCMNotificationRequestDto request) {
+        log.info("FCM 푸시 알림 API 를 호출합니다.");
         firebaseService.sendNotificationByToken(request, customUser.getUserId());
         FCMNotificationResponseDto response = FCMNotificationResponseDto.of(request.getTitle(), request.getBody(), customUser.getUserId());
         return ResponseEntity.ok(response);
