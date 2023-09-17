@@ -16,43 +16,45 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-//@Slf4j
-//@Service
-//public class FirebaseConfig {
-//
-////    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
-////    private String serviceAccountKeyPath;
-//
-////    @PostConstruct
-////    public void init() throws IOException {
-//// //       try {
-////            FileInputStream resource = new FileInputStream(serviceAccountKeyPath);
-////            FirebaseOptions options = new FirebaseOptions.Builder()
-////                    .setCredentials(
-////                            GoogleCredentials.fromStream(
-////                                    resource
-////                            ))
-////                    .build();
-////            FirebaseApp.initializeApp(options);
-////            log.info("firebase application init complete");
-////    //    } catch (Exception e) {
-////            log.warn("[ 오류 ] firebase application init failed!!");
-////   //         throw new FirebaseConfigException();
-////     //   }
-////    }
-//
+@Slf4j
+@Service
+public class FirebaseConfig {
+
+    @PostConstruct
+    public void initialize() throws IOException {
+        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
+
+        try (InputStream is = resource.getInputStream()) {
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(is))
+                    .build();
+            if (FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(options);
+                log.info("FirebaseApp initialization complete");
+            }
+        }
+    }
+}
+
+//    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
+//    private String serviceAccountKeyPath;
+
 //    @PostConstruct
-//    public void initialize() throws IOException {
-//        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
-//
-//        try (InputStream is = resource.getInputStream()) {
-//            FirebaseOptions options = FirebaseOptions.builder()
-//                    .setCredentials(GoogleCredentials.fromStream(is))
+//    public void init() throws IOException {
+// //       try {
+//            FileInputStream resource = new FileInputStream(serviceAccountKeyPath);
+//            FirebaseOptions options = new FirebaseOptions.Builder()
+//                    .setCredentials(
+//                            GoogleCredentials.fromStream(
+//                                    resource
+//                            ))
 //                    .build();
-//            if (FirebaseApp.getApps().isEmpty()) {
-//                FirebaseApp.initializeApp(options);
-//                log.info("FirebaseApp initialization complete");
-//            }
-//        }
+//            FirebaseApp.initializeApp(options);
+//            log.info("firebase application init complete");
+//    //    } catch (Exception e) {
+//            log.warn("[ 오류 ] firebase application init failed!!");
+//   //         throw new FirebaseConfigException();
+//     //   }
 //    }
-//}
+
+
