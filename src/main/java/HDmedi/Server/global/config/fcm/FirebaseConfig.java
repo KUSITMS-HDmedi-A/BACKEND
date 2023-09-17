@@ -25,7 +25,7 @@ public class FirebaseConfig {
     public void initialize() throws IOException {
         // serviceAccountKey.json 파일을 ClassPath에서 읽어옴
         ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
-    //    try {
+        try {
             // InputStream에서 데이터를 읽음
             byte[] jsonData = IOUtils.toByteArray(resource.getInputStream());
 
@@ -47,9 +47,9 @@ public class FirebaseConfig {
                 FirebaseApp.initializeApp(options);
                 log.info("FirebaseApp initialization complete");
             }
-  //      } catch (IOException e) {
-     //       log.error("Error initializing FirebaseApp", e);
-     //   }
+        } catch (IOException e) {
+            log.error("Error initializing FirebaseApp", e);
+        }
     }
 }
 
