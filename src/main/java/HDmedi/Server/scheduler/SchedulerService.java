@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,7 +40,9 @@ public class SchedulerService {
         List<Alarm> alarms = alramRepository.findAllByStartDateLessThanAndIsActivatedIsTrue(curDate);
 
         for (Alarm alarm : alarms) {
-            List<LocalDate> dates = alarmDateRepository.findDatesByAlarm(alarm);
+            List<AlarmDate> alarmDates = alarmDateRepository.findByAlarm(alarm);
+            List<LocalDate> dates = alarmDates.stream()
+                    .map(AlarmDate::getDate).collect(Collectors.toList());
             List<AlarmDate> alarmInfos = alarmDateRepository.findAlarmDateByAlarm(alarm);
             LocalTime alarmAtTime = alarm.getTime(); // 알람이 울려야 할 시각
             Boolean isActivated = alarm.getIsActivated();
