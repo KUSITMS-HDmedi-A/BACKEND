@@ -43,11 +43,11 @@ jobs:
       - name: Create serviceAccountKey.json
         run:  |
            mkdir ./src/main/resources
-           echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
+           echo "${{ secrets.FCM_ACCOUNT }}" > ./src
         shell: bash
 
       - name: Copy serviceAccountKey.json to resources directory
-        run: cp path/to/serviceAccountKey.json ./src/main/resources/
+        run: cp ./src/main/resources/serviceAccountKey.json ./src
 
         shell: bash
 
