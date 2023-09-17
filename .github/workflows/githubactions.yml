@@ -44,13 +44,18 @@ jobs:
         run:  |
            mkdir ./src/main/resources
            echo "${{ secrets.FCM_ACCOUNT }}" > ./src/main/resources/serviceAccountKey.json
+        shell: bash
 
+      - name: Copy serviceAccountKey.json to resources directory
+        run: cp path/to/serviceAccountKey.json ./src/main/resources/
+
+        shell: bash
 
       - name: Set .yml for main
         run: |
-          # main 설정 파일 디렉토리로 이동
-          touch ./src/main/resources/application.yml
-          echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
+            # main 설정 파일 디렉토리로 이동
+            touch ./src/main/resources/application.yml
+            echo "${{ secrets.MAIN_YML }}" > ./src/main/resources/application.yml
         shell: bash
 
 
