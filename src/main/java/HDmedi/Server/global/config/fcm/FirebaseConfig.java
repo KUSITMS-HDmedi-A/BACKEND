@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+
+
 @Slf4j
 @Service
 public class FirebaseConfig {
@@ -27,15 +29,20 @@ public class FirebaseConfig {
         ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
         try {
             // InputStream에서 데이터를 읽음
-            InputStream serviceAccount = resource.getInputStream();
+            byte[] jsonData = IOUtils.toByteArray(resource.getInputStream());
+
+            // JSON 파서 생성 및 Lenient 모드 설정
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(jsonData)));
+            jsonReader.setLenient(true);
 
             // GoogleCredentials 생성
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(jsonData ));
 
             // FirebaseOptions 빌더를 사용하여 FirebaseOptions 생성
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(credentials)
                     .build();
+
 
             // FirebaseApp이 초기화되지 않았을 때만 초기화
             if (FirebaseApp.getApps().isEmpty()) {
@@ -48,41 +55,6 @@ public class FirebaseConfig {
     }
 }
 
-//@Slf4j
-//@Service
-//public class FirebaseConfig {
-//    @PostConstruct
-//    public void initialize() throws IOException {
-//        // serviceAccountKey.json 파일을 ClassPath에서 읽어옴
-//        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
-//        try {
-//            // InputStream에서 데이터를 읽음
-//            byte[] jsonData = IOUtils.toByteArray(resource.getInputStream());
-//
-//            // JSON 파서 생성 및 Lenient 모드 설정
-//            JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(jsonData)));
-//            jsonReader.setLenient(true);
-//
-//            // GoogleCredentials 생성
-//            GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(jsonData ));
-//
-//            // FirebaseOptions 빌더를 사용하여 FirebaseOptions 생성
-//            FirebaseOptions options = FirebaseOptions.builder()
-//                    .setCredentials(credentials)
-//                    .build();
-//
-//
-//            // FirebaseApp이 초기화되지 않았을 때만 초기화
-//            if (FirebaseApp.getApps().isEmpty()) {
-//                FirebaseApp.initializeApp(options);
-//                log.info("FirebaseApp initialization complete");
-//            }
-//        } catch (IOException e) {
-//            log.error("Error initializing FirebaseApp", e);
-//        }
-//    }
-//}
-//
 
 //    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
 //    private String serviceAccountKeyPath;
