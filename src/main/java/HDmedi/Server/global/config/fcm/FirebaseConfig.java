@@ -49,7 +49,6 @@ public class FirebaseConfig {
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(is))
                     .build();
-
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("FirebaseApp initialization complete");
