@@ -17,27 +17,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-
-
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-
-import org.springframework.core.io.ClassPathResource;
-
-import javax.annotation.PostConstruct;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class FirebaseConfig {
-
     @PostConstruct
     public void initialize() throws IOException {
         // serviceAccountKey.json 파일을 ClassPath에서 읽어옴
