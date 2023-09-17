@@ -20,6 +20,7 @@ import java.io.InputStream;
 @Service
 public class FirebaseConfig {
 
+
     @PostConstruct
     public void initialize() throws IOException {
         ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
