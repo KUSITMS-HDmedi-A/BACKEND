@@ -20,8 +20,8 @@ import java.io.InputStream;
 @Service
 public class FirebaseConfig {
 
-    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
-    private String serviceAccountKeyPath;
+//    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
+//    private String serviceAccountKeyPath;
 
 //    @PostConstruct
 //    public void init() throws IOException {
@@ -43,7 +43,7 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void initialize() throws IOException {
-        ClassPathResource resource = new ClassPathResource(serviceAccountKeyPath);
+        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
 
         try (InputStream is = resource.getInputStream()) {
             FirebaseOptions options = FirebaseOptions.builder()
