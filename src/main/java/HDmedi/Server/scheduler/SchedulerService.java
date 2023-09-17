@@ -53,23 +53,23 @@ public class SchedulerService {
                 LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
                 Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용
                 if (!alarmAtDate.equals(curDate)) {
-                    log.info("[ 알람 날짜와 현재 날짜가 일치하지 않으므로 알람을 울리지 않습니다.  ]");
-                    log.info("알람이 울리는 날짜 : " + alarmAtDate);
-                    log.info("현재 날짜 : " + curDate);
+//                    log.info("[ 알람 날짜와 현재 날짜가 일치하지 않으므로 알람을 울리지 않습니다.  ]");
+//                    log.info("알람이 울리는 날짜 : " + alarmAtDate);
+//                    log.info("현재 날짜 : " + curDate);
                     continue;
                 }
                 if (!Objects.equals(alarmAtTime.getMinute(), curTime.getMinute())) {
-                    log.info("[ 알람이 울리는 시간과 현재 시간이 일치하지 않으므로 알람을 울리지 않습니다. ]");
-                    log.info("알람이 울리는 분 : " + alarmAtTime.getMinute() + " 분");
-                    log.info("현재 분 : " + curTime.getMinute() + "분");
+//                    log.info("[ 알람이 울리는 시간과 현재 시간이 일치하지 않으므로 알람을 울리지 않습니다. ]");
+//                    log.info("알람이 울리는 분 : " + alarmAtTime.getMinute() + " 분");
+//                    log.info("현재 분 : " + curTime.getMinute() + "분");
                     continue;
                 }
                 if (!isActivated) {
-                    log.info("[ 알림이 비활성화 상태이므로 알림을 울리지 않습니다. ]");
+//                    log.info("[ 알림이 비활성화 상태이므로 알림을 울리지 않습니다. ]");
                     continue;
                 }
                 if (doseSign) {
-                    log.info("[해당 알림 날짜에 대한 doseSing 이 true 이므로 알림을 울리지 않습니다. ]");
+//                    log.info("[해당 알림 날짜에 대한 doseSing 이 true 이므로 알림을 울리지 않습니다. ]");
                     continue;
                 }
                     /*
