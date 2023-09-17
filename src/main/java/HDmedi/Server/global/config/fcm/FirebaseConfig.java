@@ -16,25 +16,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Slf4j
-@Service
-public class FirebaseConfig {
-
-    @PostConstruct
-    public void initialize() throws IOException {
-        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
-
-        try (InputStream is = resource.getInputStream()) {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(is))
-                    .build();
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-                log.info("FirebaseApp initialization complete");
-            }
-        }
-    }
-}
+//@Slf4j
+//@Service
+//public class FirebaseConfig {
+//
+//    @PostConstruct
+//    public void initialize() throws IOException {
+//        ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
+//
+//        try (InputStream is = resource.getInputStream()) {
+//            FirebaseOptions options = FirebaseOptions.builder()
+//                    .setCredentials(GoogleCredentials.fromStream(is))
+//                    .build();
+//            if (FirebaseApp.getApps().isEmpty()) {
+//                FirebaseApp.initializeApp(options);
+//                log.info("FirebaseApp initialization complete");
+//            }
+//        }
+//    }
+//}
 
 //    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
 //    private String serviceAccountKeyPath;
