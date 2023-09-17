@@ -40,7 +40,6 @@ public class SchedulerService {
         List<Alarm> alarms = alramRepository.findAllByStartDateLessThanAndIsActivatedIsTrue(curDate);
 
         for (Alarm alarm : alarms) {
-            log.info("1. 알림 리스트를 조회합니다.");
             List<AlarmDate> alarmDates = alarmDateRepository.findByAlarm(alarm);
             List<LocalDate> dates = alarmDates.stream()
                     .map(AlarmDate::getDate).collect(Collectors.toList());
@@ -49,7 +48,6 @@ public class SchedulerService {
             Boolean isActivated = alarm.getIsActivated();
             // 해당 알림이 울려야 하는 날짜들 가져오기
             for (AlarmDate alarmDate : alarmInfos) {
-                log.info("2. 해당 알림이 발생해야 하는 날짜 리스트를 조회합니다.");
                 LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
                 Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용
                 if (alarmAtDate != curDate) {
