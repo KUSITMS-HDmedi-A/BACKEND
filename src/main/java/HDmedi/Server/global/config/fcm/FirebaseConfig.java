@@ -34,6 +34,7 @@ public class FirebaseConfig {
             // 읽은 데이터로 GoogleCredentials 생성
             GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(jsonData));
 
+
             // FirebaseOptions 빌더를 사용하여 FirebaseOptions 생성
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(credentials)
