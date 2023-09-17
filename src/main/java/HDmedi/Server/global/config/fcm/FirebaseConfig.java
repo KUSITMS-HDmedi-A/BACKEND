@@ -5,16 +5,20 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 
 @Slf4j
 @Service
@@ -24,9 +28,17 @@ public class FirebaseConfig {
         ClassPathResource resource = new ClassPathResource("serviceAccountKey.json");
 
         try (InputStream is = resource.getInputStream()) {
+            // InputStream에서 데이터를 읽음
+            byte[] jsonData = IOUtils.toByteArray(is);
+
+            // 읽은 데이터로 GoogleCredentials 생성
+            GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(jsonData));
+
+            // FirebaseOptions 빌더를 사용하여 FirebaseOptions 생성
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(is))
+                    .setCredentials(credentials)
                     .build();
+
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("FirebaseApp initialization complete");
@@ -34,6 +46,8 @@ public class FirebaseConfig {
         }
     }
 }
+
+
 
 //    @Value("${SERVICE_ACCOUNT_KEY_PATH}")
 //    private String serviceAccountKeyPath;
