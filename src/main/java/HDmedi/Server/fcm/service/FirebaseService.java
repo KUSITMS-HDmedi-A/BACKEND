@@ -29,7 +29,7 @@ public class FirebaseService {
     @Transactional(readOnly = true)
     public void sendNotificationByToken(FCMNotificationRequestDto request, Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(NotFoundMemberException::new);
-
+        log.info("[알람 전송 서비스 로직이 호출되었습니다. userId = + " + userId + " ]");
         if (!Objects.isNull(user.getFirebaseToken())) {
             Notification notification = Notification.builder()
                     .setTitle(request.getTitle())
