@@ -42,9 +42,9 @@ jobs:
       # main 설정 파일 생성 및 write
       - name: Create serviceAccountKey.json
         run:  |
-           mkdir app/src/main/resources
-           touch app/src/main/resources/serviceAccountKey.json
-           echo "${{ secrets.FCM_ACCOUNT }}" > app/src/main/resources/serviceAccountKey.json
+           mkdir src/main/resources
+           touch src/main/resources/serviceAccountKey.json
+           echo "${{ secrets.FCM_ACCOUNT }}" > src/main/resources/serviceAccountKey.json
         shell: bash
 
 
