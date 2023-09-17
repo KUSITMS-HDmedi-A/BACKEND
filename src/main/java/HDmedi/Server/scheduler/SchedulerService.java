@@ -43,6 +43,7 @@ public class SchedulerService {
             List<AlarmDate> alarmDates = alarmDateRepository.findByAlarm(alarm);
             List<LocalDate> dates = alarmDates.stream()
                     .map(AlarmDate::getDate).collect(Collectors.toList());
+
             List<AlarmDate> alarmInfos = alarmDateRepository.findAlarmDateByAlarm(alarm);
             LocalTime alarmAtTime = alarm.getTime(); // 알람이 울려야 할 시각
             Boolean isActivated = alarm.getIsActivated();
