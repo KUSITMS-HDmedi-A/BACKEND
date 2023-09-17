@@ -42,12 +42,14 @@ jobs:
       # main 설정 파일 생성 및 write
       - name: Create serviceAccountKey.json
         run:  |
-           mkdir ./src/main/resources
+           mkdir ./src
            echo "${{ secrets.FCM_ACCOUNT }}" > ./src
         shell: bash
 
       - name: Copy serviceAccountKey.json to resources directory
-        run: cp ./src/main/resources/serviceAccountKey.json ./src
+        run: |
+          mkdir ./src/main/resources
+          cp ./src/main/resources/serviceAccountKey.json ./src
 
         shell: bash
 
