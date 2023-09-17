@@ -51,7 +51,7 @@ public class SchedulerService {
             for (AlarmDate alarmDate : alarmInfos) {
                 LocalDate alarmAtDate = alarmDate.getDate(); // 알람이 울려야 할 날짜
                 Boolean doseSign = alarmDate.getDoseSign(); // 해당 날짜의 알람의 복용
-                if (alarmAtDate != curDate) {
+                if (!alarmAtDate.equals(curDate)) {
                     log.info("[ 알람 날짜와 현재 날짜가 일치하지 않으므로 알람을 울리지 않습니다.  ]");
                     continue;
                 }
