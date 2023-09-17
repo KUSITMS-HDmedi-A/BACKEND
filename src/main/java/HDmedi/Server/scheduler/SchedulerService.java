@@ -61,10 +61,9 @@ public class SchedulerService {
                     String title = "[HDmedi push alarm]";
                     String body = child.getName() + " 님을 위한 복약 알림입니다.";
                     FCMNotificationRequestDto request = FCMNotificationRequestDto.builder()
-                            .targetUserId(user.getId())
                             .title(title)
                             .body(body).build();
-                    firebaseService.sendNotificationByToken(request);
+                    firebaseService.sendNotificationByToken(request, user.getId());
                 }
                 if (alarm.getEndDate().isBefore(curDate)) {
                     alarm.inactivateAlarm(); // 알람 비 활성화 처리

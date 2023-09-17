@@ -33,9 +33,11 @@ public class FirebaseController {
     @ApiResponse(code = 200, message = "Success", response = FCMNotificationResponseDto.class)
     @ApiOperation(value = "FCM 푸시 알림")
     @PostMapping
-    public ResponseEntity<FCMNotificationResponseDto> sendNotification(@RequestBody FCMNotificationRequestDto request) {
-        firebaseService.sendNotificationByToken(request);
-        FCMNotificationResponseDto response = FCMNotificationResponseDto.of(request.getTargetUserId());
+    public ResponseEntity<FCMNotificationResponseDto> sendNotification(
+            @AuthenticationPrincipal CustomUser customUser,
+            @RequestBody FCMNotificationRequestDto request) {
+        firebaseService.sendNotificationByToken(request, customUser.getUserId());
+        FCMNotificationResponseDto response = FCMNotificationResponseDto.of(request.getTitle(), request.getBody(), customUser.getUserId());
         return ResponseEntity.ok(response);
     }
 
